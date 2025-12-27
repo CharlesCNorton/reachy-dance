@@ -82,6 +82,7 @@ body_yaw   = 12° * sin(2π * beat_freq/4 * t)
 | Get Down Saturday Night | Oliver Cheatham | 117 | Classic funk, excellent detection |
 | Ecstatic Vibrations | Sea Power | ~80 | Ambient, tests slow tempo |
 | Blue Christmas | Elvis Presley | 94.5 | Holiday classic, smooth detection |
+| All Shook Up | Elvis Presley | 76 | Rock and roll, solid beat tracking |
 
 ## License
 
