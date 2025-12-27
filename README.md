@@ -83,6 +83,8 @@ body_yaw   = 12° * sin(2π * beat_freq/4 * t)
 | Ecstatic Vibrations | Sea Power | ~80 | Ambient, tests slow tempo |
 | Blue Christmas | Elvis Presley | 94.5 | Holiday classic, smooth detection |
 | All Shook Up | Elvis Presley | 76 | Rock and roll, solid beat tracking |
+| She Blinded Me With Science | Thomas Dolby | 129.3 | 80s synth-pop, fast beat detection |
+| All I Want for Christmas Is You | Mariah Carey | 150 | Holiday classic, high energy |
 
 ## License
 
