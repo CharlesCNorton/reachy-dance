@@ -3,6 +3,14 @@
   "url": "https://www.youtube.com/watch?v=PpsUOOfb-vE",
   "default_time": "normal",
   "time_switches": [
-    {"at": 18.0, "time": "double", "_comment": "Electric guitar riff starts"}
+    {"at": 18, "time": "double", "_comment": "Guitar riff starts"},
+    {"at": 29, "time": "normal", "_comment": "Guitar ends"},
+    {"at": 41, "time": "double", "_comment": "Guitar returns"},
+    {"at": 52, "time": "normal", "_comment": "Guitar ends"},
+    {"at": 64, "time": "double", "_comment": "Guitar starts (1:04)"},
+    {"at": 87, "time": "normal", "_comment": "Guitar ends (1:27)"},
+    {"at": 99, "time": "double", "_comment": "Guitar starts (1:39)"},
+    {"at": 110, "time": "normal", "_comment": "Guitar ends (1:50)"},
+    {"at": 121, "time": "double", "_comment": "Guitar starts (2:01) - until end"}
   ]
 }
