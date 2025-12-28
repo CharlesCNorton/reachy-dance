@@ -5,6 +5,7 @@ Makes Reachy Mini dance to YouTube videos with beat-synced movements.
 
 Usage:
     python reachy_youtube_dance.py [URL] [--volume normal|loud|max]
+    python reachy_youtube_dance.py --choreo  # Special choreographed dance
 
     Interactive commands during session:
         - Enter URL to play new track
@@ -26,6 +27,8 @@ import time
 import wave
 import subprocess
 import traceback
+from dataclasses import dataclass
+from typing import Optional, List, Tuple
 
 VOLUME_LEVELS = {
     'normal': 0,
@@ -75,19 +78,407 @@ print("[INIT] All dependencies loaded")
 print()
 
 
+# ============================================================================
+# CHOREOGRAPHY SYSTEM
+# ============================================================================
+# Lyric-triggered choreography for "I Wanna Be Like You" (The Jungle Book)
+# with multi-phase sequences, anticipation, follow-through, and personality.
+
+CHOREO_SONG_URL = "https://www.youtube.com/watch?v=GokDMNue2Xc"
+CHOREO_SONG_TITLE = "I Wanna Be Like You - The Jungle Book"
+
+# Whisper transcription timestamps (word-level, corrected)
+CHOREO_TIMESTAMPS = {
+    "king": 8.50, "swingers": 9.20, "jungle": 10.58, "VIP": 10.94,
+    "top": 13.56, "stop": 14.70, "botherin": 16.44, "wanna_1": 17.90,
+    "man": 18.54, "stroll": 20.20, "tired": 25.18, "around": 26.26,
+    "oobee": 27.12, "like_1": 29.80, "you_1": 30.14, "walk": 32.64,
+    "like_2": 32.94, "you_2": 33.26, "talk": 33.74, "like_3": 34.02,
+    "you_3": 34.42, "true": 36.00, "ape": 38.50, "human": 40.50,
+    "deal": 71.76, "secret_1": 75.40, "fire_1": 77.50, "fire_2": 79.92,
+    "kid": 82.28, "desire": 86.54, "fire_3": 88.12, "dream": 89.30,
+    "secret_2": 91.56, "power": 96.46, "flower": 97.82, "you_4": 99.70,
+    "bam_1": 125.52, "bam_2": 126.14, "bam_3": 126.56, "bam_4": 126.90,
+    "like_4": 159.22, "like_5": 163.24, "learn": 167.36, "you_5": 169.60,
+    "one_more_time": 170.42, "like_6": 173.02,
+    "bam_5": 177.10, "bam_6": 177.56, "bam_7": 177.88, "bam_8": 178.00,
+}
+
+
+@dataclass
+class ChoreoLimits:
+    """Hardware limits for Reachy Mini."""
+    HEAD_PITCH_MIN: float = -30.0
+    HEAD_PITCH_MAX: float = 20.0
+    HEAD_YAW_MIN: float = -45.0
+    HEAD_YAW_MAX: float = 45.0
+    HEAD_ROLL_MIN: float = -20.0
+    HEAD_ROLL_MAX: float = 20.0
+    ANTENNA_MIN: float = 0.0
+    ANTENNA_MAX: float = 1.0
+    BODY_YAW_MIN: float = -15.0
+    BODY_YAW_MAX: float = 15.0
+
+    def clamp(self, pitch, yaw, roll, ant_l, ant_r, body_yaw):
+        return (
+            max(self.HEAD_PITCH_MIN, min(self.HEAD_PITCH_MAX, pitch)),
+            max(self.HEAD_YAW_MIN, min(self.HEAD_YAW_MAX, yaw)),
+            max(self.HEAD_ROLL_MIN, min(self.HEAD_ROLL_MAX, roll)),
+            max(self.ANTENNA_MIN, min(self.ANTENNA_MAX, ant_l)),
+            max(self.ANTENNA_MIN, min(self.ANTENNA_MAX, ant_r)),
+            max(self.BODY_YAW_MIN, min(self.BODY_YAW_MAX, body_yaw)),
+        )
+
+
+CHOREO_LIMITS = ChoreoLimits()
+
+
+@dataclass
+class Pose:
+    """A single pose with all joint values."""
+    head_pitch: float = 0.0
+    head_yaw: float = 0.0
+    head_roll: float = 0.0
+    antenna_left: float = 0.0
+    antenna_right: float = 0.0
+    body_yaw: float = 0.0
+
+    def lerp(self, other: 'Pose', t: float) -> 'Pose':
+        t = max(0, min(1, t))
+        return Pose(
+            self.head_pitch + (other.head_pitch - self.head_pitch) * t,
+            self.head_yaw + (other.head_yaw - self.head_yaw) * t,
+            self.head_roll + (other.head_roll - self.head_roll) * t,
+            self.antenna_left + (other.antenna_left - self.antenna_left) * t,
+            self.antenna_right + (other.antenna_right - self.antenna_right) * t,
+            self.body_yaw + (other.body_yaw - self.body_yaw) * t,
+        )
+
+    def clamped(self) -> 'Pose':
+        p, y, r, al, ar, by = CHOREO_LIMITS.clamp(
+            self.head_pitch, self.head_yaw, self.head_roll,
+            self.antenna_left, self.antenna_right, self.body_yaw
+        )
+        return Pose(p, y, r, al, ar, by)
+
+
+REST_POSE = Pose(0, 0, 0, 0, 0, 0)
+
+
+@dataclass
+class Phase:
+    """A phase within a movement sequence."""
+    pose: Pose
+    duration: float
+    ease: str = "smooth"
+
+
+@dataclass
+class Sequence:
+    """A multi-phase movement with anticipation and follow-through."""
+    phases: List[Phase]
+    blend_weight: float = 0.9
+
+    def get_total_duration(self) -> float:
+        return sum(p.duration for p in self.phases)
+
+    def get_pose_at(self, elapsed: float) -> Tuple[Pose, float]:
+        if not self.phases:
+            return REST_POSE, 0
+        t = 0
+        for i, phase in enumerate(self.phases):
+            if elapsed < t + phase.duration:
+                progress = (elapsed - t) / phase.duration if phase.duration > 0 else 1
+                if phase.ease == "smooth":
+                    progress = progress * progress * (3 - 2 * progress)
+                elif phase.ease == "snap":
+                    progress = 1 if progress > 0.3 else progress / 0.3
+                elif phase.ease == "ease_in":
+                    progress = progress * progress
+                elif phase.ease == "ease_out":
+                    progress = 1 - (1 - progress) ** 2
+                prev = self.phases[i-1].pose if i > 0 else REST_POSE
+                return prev.lerp(phase.pose, progress), self.blend_weight
+            t += phase.duration
+        final = self.phases[-1].pose
+        overshoot = elapsed - t
+        decay = max(0, 1 - overshoot / 0.3)
+        return final.lerp(REST_POSE, 1 - decay), self.blend_weight * decay
+
+
+# Movement sequence factories
+def seq_king() -> Sequence:
+    """King of the swingers - regal head raise + slow turn + crown antennas."""
+    return Sequence([
+        Phase(Pose(-5, 0, 0, 0.2, 0.2, 0), 0.1, "smooth"),
+        Phase(Pose(15, 0, 0, 0.5, 0.5, 0), 0.2, "ease_out"),
+        Phase(Pose(18, 20, 3, 0.9, 0.95, 5), 0.3, "smooth"),
+        Phase(Pose(15, 15, 0, 1.0, 1.0, 3), 0.3, "smooth"),
+        Phase(Pose(8, 5, 0, 0.7, 0.7, 0), 0.2, "ease_in"),
+    ], 0.95)
+
+def seq_fire() -> Sequence:
+    """Man's red fire - flicker -> FLARE -> hold."""
+    return Sequence([
+        Phase(Pose(-3, 0, 0, 0.2, 0.3, 0), 0.08, "snap"),
+        Phase(Pose(5, 0, 0, 0.6, 0.4, 0), 0.06, "snap"),
+        Phase(Pose(3, 0, 0, 0.4, 0.7, 0), 0.06, "snap"),
+        Phase(Pose(6, 0, 0, 0.8, 0.5, 0), 0.06, "snap"),
+        Phase(Pose(15, 0, 0, 1.0, 1.0, 0), 0.12, "snap"),
+        Phase(Pose(12, 0, 2, 1.0, 1.0, 0), 0.25, "smooth"),
+        Phase(Pose(8, 0, 0, 0.8, 0.8, 0), 0.15, "ease_in"),
+    ], 0.98)
+
+def seq_like_left() -> Sequence:
+    """Like you - mimicking gesture, left variation."""
+    return Sequence([
+        Phase(Pose(0, -5, -3, 0.4, 0.5, -2), 0.08, "smooth"),
+        Phase(Pose(5, -15, 10, 0.8, 0.4, -5), 0.15, "ease_out"),
+        Phase(Pose(10, -10, 8, 0.9, 0.5, -3), 0.12, "smooth"),
+        Phase(Pose(3, -5, 3, 0.6, 0.5, -1), 0.1, "ease_in"),
+    ], 0.85)
+
+def seq_like_right() -> Sequence:
+    """Like you - mimicking gesture, right variation."""
+    return Sequence([
+        Phase(Pose(0, 5, 3, 0.5, 0.4, 2), 0.08, "smooth"),
+        Phase(Pose(5, 15, -10, 0.4, 0.8, 5), 0.15, "ease_out"),
+        Phase(Pose(10, 10, -8, 0.5, 0.9, 3), 0.12, "smooth"),
+        Phase(Pose(3, 5, -3, 0.5, 0.6, 1), 0.1, "ease_in"),
+    ], 0.85)
+
+def seq_walk() -> Sequence:
+    """Walk like you - exaggerated strut bobbing."""
+    return Sequence([
+        Phase(Pose(-10, 8, 5, 0.3, 0.5, 4), 0.1, "snap"),
+        Phase(Pose(5, -5, -3, 0.6, 0.4, -2), 0.1, "ease_out"),
+        Phase(Pose(3, 10, 6, 0.5, 0.6, 3), 0.1, "smooth"),
+    ], 0.75)
+
+def seq_talk() -> Sequence:
+    """Talk like you - sassy head tilts."""
+    return Sequence([
+        Phase(Pose(3, 20, 12, 0.5, 0.7, 6), 0.1, "ease_out"),
+        Phase(Pose(5, 25, 15, 0.6, 0.8, 8), 0.12, "smooth"),
+        Phase(Pose(0, 15, 8, 0.5, 0.6, 4), 0.1, "ease_in"),
+    ], 0.8)
+
+def seq_swingers() -> Sequence:
+    """Swingers - full body swing with antenna countermotion."""
+    return Sequence([
+        Phase(Pose(3, -25, -8, 0.8, 0.3, -10), 0.15, "smooth"),
+        Phase(Pose(8, 0, 0, 0.5, 0.5, 0), 0.1, "ease_out"),
+        Phase(Pose(5, 30, 10, 0.3, 0.9, 12), 0.2, "smooth"),
+        Phase(Pose(5, 10, 3, 0.5, 0.6, 4), 0.15, "ease_in"),
+    ], 0.9)
+
+def seq_bam_left() -> Sequence:
+    return Sequence([
+        Phase(Pose(-8, -10, -5, 0.2, 0.5, -5), 0.06, "snap"),
+        Phase(Pose(0, -3, 0, 0.4, 0.4, -1), 0.06, "ease_out"),
+    ], 0.7)
+
+def seq_bam_right() -> Sequence:
+    return Sequence([
+        Phase(Pose(-8, 10, 5, 0.5, 0.2, 5), 0.06, "snap"),
+        Phase(Pose(0, 3, 0, 0.4, 0.4, 1), 0.06, "ease_out"),
+    ], 0.7)
+
+def seq_bam_center() -> Sequence:
+    return Sequence([
+        Phase(Pose(-12, 0, 0, 0.6, 0.6, 0), 0.05, "snap"),
+        Phase(Pose(5, 0, 0, 0.8, 0.8, 0), 0.05, "snap"),
+    ], 0.75)
+
+def seq_dream() -> Sequence:
+    """Dream - slow dreamy roll with asymmetric antenna float."""
+    return Sequence([
+        Phase(Pose(8, 10, 5, 0.4, 0.7, 3), 0.2, "ease_out"),
+        Phase(Pose(10, 20, 12, 0.5, 0.9, 6), 0.25, "smooth"),
+        Phase(Pose(12, 25, 15, 0.6, 1.0, 8), 0.2, "smooth"),
+        Phase(Pose(8, 15, 8, 0.5, 0.8, 5), 0.2, "ease_in"),
+        Phase(Pose(5, 8, 3, 0.4, 0.6, 2), 0.15, "smooth"),
+    ], 0.85)
+
+def seq_vip() -> Sequence:
+    """VIP - dramatic pause then snap into pose."""
+    return Sequence([
+        Phase(Pose(-2, 0, 0, 0.3, 0.3, 0), 0.15, "linear"),
+        Phase(Pose(12, 18, -5, 1.0, 1.0, 8), 0.08, "snap"),
+        Phase(Pose(10, 15, -3, 0.95, 0.95, 6), 0.2, "smooth"),
+        Phase(Pose(5, 8, 0, 0.7, 0.7, 3), 0.12, "ease_in"),
+    ], 0.95)
+
+def seq_point_up() -> Sequence:
+    """Point up on 'you' - emphatic with asymmetry."""
+    return Sequence([
+        Phase(Pose(-3, 0, 0, 0.3, 0.4, 0), 0.06, "smooth"),
+        Phase(Pose(15, 0, 0, 1.0, 0.95, 0), 0.1, "snap"),
+        Phase(Pose(12, 0, 2, 0.95, 1.0, 0), 0.12, "smooth"),
+        Phase(Pose(5, 0, 0, 0.6, 0.6, 0), 0.1, "ease_in"),
+    ], 0.85)
+
+def seq_power() -> Sequence:
+    """Power - strong pose with buildup."""
+    return Sequence([
+        Phase(Pose(-5, 0, 0, 0.3, 0.3, 0), 0.1, "smooth"),
+        Phase(Pose(18, 0, 0, 1.0, 1.0, 0), 0.12, "snap"),
+        Phase(Pose(15, 0, 2, 1.0, 1.0, 0), 0.2, "smooth"),
+        Phase(Pose(10, 0, 0, 0.8, 0.8, 0), 0.1, "ease_in"),
+    ], 0.95)
+
+def seq_frustrated() -> Sequence:
+    """Frustrated - shake with personality."""
+    return Sequence([
+        Phase(Pose(0, -18, -6, 0.4, 0.6, -4), 0.08, "snap"),
+        Phase(Pose(0, 18, 6, 0.6, 0.4, 4), 0.08, "snap"),
+        Phase(Pose(0, -10, -3, 0.5, 0.5, -2), 0.06, "snap"),
+        Phase(Pose(-3, 0, 0, 0.4, 0.4, 0), 0.08, "ease_in"),
+    ], 0.8)
+
+def seq_conspiratorial() -> Sequence:
+    """Conspiratorial - sneaky lean in."""
+    return Sequence([
+        Phase(Pose(0, -20, 0, 0.5, 0.5, -5), 0.12, "smooth"),
+        Phase(Pose(0, 15, 0, 0.5, 0.5, 3), 0.1, "smooth"),
+        Phase(Pose(-8, 25, 8, 0.4, 0.6, 8), 0.15, "ease_out"),
+        Phase(Pose(-5, 20, 5, 0.5, 0.6, 6), 0.15, "smooth"),
+    ], 0.85)
+
+def seq_aspiring() -> Sequence:
+    """Aspiring/human - reaching upward hopefully."""
+    return Sequence([
+        Phase(Pose(-5, 0, 0, 0.2, 0.2, 0), 0.1, "smooth"),
+        Phase(Pose(15, 5, 3, 0.8, 0.9, 2), 0.2, "ease_out"),
+        Phase(Pose(18, 0, 0, 1.0, 1.0, 0), 0.15, "smooth"),
+        Phase(Pose(10, 0, 0, 0.7, 0.8, 0), 0.15, "ease_in"),
+    ], 0.9)
+
+
+class ChoreographyEngine:
+    """Manages lyric-triggered choreography with multi-phase sequences."""
+
+    def __init__(self):
+        self.active_sequence: Optional[Sequence] = None
+        self.sequence_start_time: float = 0
+        self.like_counter: int = 0
+        self.bam_counter: int = 0
+        self.triggers_fired: int = 0
+        self.triggers = self._build_triggers()
+        self.current_idx = 0
+
+    def _build_triggers(self) -> List[dict]:
+        ts = CHOREO_TIMESTAMPS
+        return [
+            {"time": ts["king"], "fn": seq_king},
+            {"time": ts["swingers"], "fn": seq_swingers},
+            {"time": ts["jungle"], "fn": seq_conspiratorial},
+            {"time": ts["VIP"], "fn": seq_vip},
+            {"time": ts["top"], "fn": seq_point_up},
+            {"time": ts["stop"], "fn": seq_point_up},
+            {"time": ts["botherin"], "fn": seq_frustrated},
+            {"time": ts["wanna_1"], "fn": lambda: self._get_like()},
+            {"time": ts["man"], "fn": seq_point_up},
+            {"time": ts["stroll"], "fn": seq_walk},
+            {"time": ts["tired"], "fn": seq_frustrated},
+            {"time": ts["around"], "fn": seq_swingers},
+            {"time": ts["oobee"], "fn": lambda: self._get_bam()},
+            {"time": ts["like_1"], "fn": lambda: self._get_like()},
+            {"time": ts["you_1"], "fn": seq_point_up},
+            {"time": ts["walk"], "fn": seq_walk},
+            {"time": ts["like_2"], "fn": lambda: self._get_like()},
+            {"time": ts["you_2"], "fn": seq_point_up},
+            {"time": ts["talk"], "fn": seq_talk},
+            {"time": ts["like_3"], "fn": lambda: self._get_like()},
+            {"time": ts["you_3"], "fn": seq_point_up},
+            {"time": ts["true"], "fn": seq_point_up},
+            {"time": ts["ape"], "fn": seq_frustrated},
+            {"time": ts["human"], "fn": seq_aspiring},
+            {"time": ts["deal"], "fn": seq_conspiratorial},
+            {"time": ts["secret_1"], "fn": seq_conspiratorial},
+            {"time": ts["fire_1"], "fn": seq_fire},
+            {"time": ts["fire_2"], "fn": seq_fire},
+            {"time": ts["kid"], "fn": seq_frustrated},
+            {"time": ts["desire"], "fn": seq_dream},
+            {"time": ts["fire_3"], "fn": seq_fire},
+            {"time": ts["dream"], "fn": seq_dream},
+            {"time": ts["secret_2"], "fn": seq_conspiratorial},
+            {"time": ts["power"], "fn": seq_power},
+            {"time": ts["flower"], "fn": seq_fire},
+            {"time": ts["you_4"], "fn": seq_point_up},
+            {"time": ts["bam_1"], "fn": lambda: self._get_bam()},
+            {"time": ts["bam_2"], "fn": lambda: self._get_bam()},
+            {"time": ts["bam_3"], "fn": lambda: self._get_bam()},
+            {"time": ts["bam_4"], "fn": lambda: self._get_bam()},
+            {"time": ts["like_4"], "fn": lambda: self._get_like()},
+            {"time": ts["like_5"], "fn": lambda: self._get_like()},
+            {"time": ts["learn"], "fn": seq_aspiring},
+            {"time": ts["you_5"], "fn": seq_point_up},
+            {"time": ts["one_more_time"], "fn": seq_power},
+            {"time": ts["like_6"], "fn": lambda: self._get_like()},
+            {"time": ts["bam_5"], "fn": lambda: self._get_bam()},
+            {"time": ts["bam_6"], "fn": lambda: self._get_bam()},
+            {"time": ts["bam_7"], "fn": lambda: self._get_bam()},
+            {"time": ts["bam_8"], "fn": lambda: self._get_bam()},
+        ]
+
+    def _get_like(self) -> Sequence:
+        self.like_counter += 1
+        return seq_like_left() if self.like_counter % 2 == 0 else seq_like_right()
+
+    def _get_bam(self) -> Sequence:
+        self.bam_counter += 1
+        p = self.bam_counter % 4
+        if p == 0: return seq_bam_left()
+        elif p == 1: return seq_bam_right()
+        elif p == 2: return seq_bam_center()
+        return seq_bam_right()
+
+    def reset(self):
+        self.current_idx = 0
+        self.active_sequence = None
+        self.sequence_start_time = 0
+        self.like_counter = 0
+        self.bam_counter = 0
+        self.triggers_fired = 0
+
+    def update(self, t: float) -> Tuple[Optional[Pose], float]:
+        while (self.current_idx < len(self.triggers) and
+               self.triggers[self.current_idx]['time'] <= t):
+            trigger = self.triggers[self.current_idx]
+            self.active_sequence = trigger['fn']()
+            self.sequence_start_time = trigger['time']
+            self.triggers_fired += 1
+            self.current_idx += 1
+
+        if self.active_sequence:
+            elapsed = t - self.sequence_start_time
+            pose, weight = self.active_sequence.get_pose_at(elapsed)
+            if elapsed > self.active_sequence.get_total_duration() + 0.3:
+                self.active_sequence = None
+                return None, 0
+            return pose.clamped(), weight
+        return None, 0
+
+
+def blend_choreo(beat_pose: Pose, choreo_pose: Optional[Pose], weight: float) -> Pose:
+    """Blend beat-sync with choreography."""
+    if choreo_pose is None or weight <= 0:
+        return beat_pose
+    return beat_pose.lerp(choreo_pose, weight).clamped()
+
+
+# ============================================================================
+# YOUTUBE/AUDIO FUNCTIONS
+# ============================================================================
+
 def validate_youtube_url(url):
-    """
-    Validate and extract video ID from various YouTube URL formats.
-    Returns (is_valid, video_id, error_message)
-    """
+    """Validate and extract video ID from various YouTube URL formats."""
     if not url:
         return False, None, "URL is empty"
-
     if not isinstance(url, str):
         return False, None, f"URL must be a string, got {type(url).__name__}"
-
     url = url.strip()
-
     if len(url) > 2048:
         return False, None, "URL is too long (max 2048 characters)"
 
@@ -108,8 +499,7 @@ def validate_youtube_url(url):
             return True, video_id, None
 
     if "youtube" in url.lower() or "youtu.be" in url.lower():
-        return False, None, "URL contains 'youtube' but video ID could not be extracted. Check URL format."
-
+        return False, None, "URL contains 'youtube' but video ID could not be extracted."
     return False, None, "URL does not appear to be a valid YouTube link"
 
 
@@ -119,22 +509,13 @@ def check_yt_dlp_installed():
     try:
         result = subprocess.run(
             [sys.executable, "-m", "yt_dlp", "--version"],
-            capture_output=True,
-            text=True,
-            timeout=10
+            capture_output=True, text=True, timeout=10
         )
         if result.returncode == 0:
-            version = result.stdout.strip()
-            print(f"[CHECK] yt-dlp version: {version}")
+            print(f"[CHECK] yt-dlp version: {result.stdout.strip()}")
             return True
-        else:
-            print(f"[ERROR] yt-dlp check failed: {result.stderr}")
-            return False
-    except subprocess.TimeoutExpired:
-        print("[ERROR] yt-dlp version check timed out")
         return False
-    except Exception as e:
-        print(f"[ERROR] Failed to check yt-dlp: {e}")
+    except:
         return False
 
 
@@ -144,268 +525,87 @@ def get_video_title(url):
     try:
         result = subprocess.run(
             [sys.executable, "-m", "yt_dlp", "--get-title", "--no-warnings", url],
-            capture_output=True,
-            text=True,
-            timeout=30
+            capture_output=True, text=True, timeout=30
         )
         if result.returncode == 0 and result.stdout.strip():
             title = result.stdout.strip()
             print(f"[INFO] Video title: {title}")
             return title
-        else:
-            print("[WARN] Could not fetch video title")
-            return None
-    except subprocess.TimeoutExpired:
-        print("[WARN] Video title fetch timed out")
-        return None
-    except Exception as e:
-        print(f"[WARN] Error fetching video title: {e}")
-        return None
+    except:
+        pass
+    return None
 
 
 def download_audio(url, output_path, timeout=300):
-    """
-    Download audio from YouTube URL.
-    Returns (success, error_message)
-    """
+    """Download audio from YouTube URL."""
     print("[DOWNLOAD] Starting audio download...")
     print(f"[DOWNLOAD] URL: {url}")
-    print(f"[DOWNLOAD] Output template: {output_path}")
 
     cmd = [
         sys.executable, "-m", "yt_dlp",
-        "-x",
-        "--audio-format", "wav",
+        "-x", "--audio-format", "wav",
         "-o", output_path,
-        "--no-playlist",
-        "--no-warnings",
-        "--progress",
-        url
+        "--no-playlist", "--no-warnings", "--progress", url
     ]
 
-    print(f"[DOWNLOAD] Command: {' '.join(cmd)}")
-
     try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=timeout
-        )
-
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
         if result.returncode == 0:
             print("[DOWNLOAD] Download completed successfully")
-            if result.stdout:
-                for line in result.stdout.strip().split('\n')[-3:]:
-                    if line.strip():
-                        print(f"[DOWNLOAD] {line.strip()}")
             return True, None
         else:
-            error_msg = result.stderr.strip() if result.stderr else "Unknown error"
-            print(f"[ERROR] Download failed with code {result.returncode}")
-            print(f"[ERROR] {error_msg}")
-
-            if "Video unavailable" in error_msg:
-                return False, "Video is unavailable (private, deleted, or region-locked)"
-            elif "age-restricted" in error_msg.lower():
-                return False, "Video is age-restricted and cannot be downloaded"
-            elif "copyright" in error_msg.lower():
-                return False, "Video blocked due to copyright"
-            elif "Sign in" in error_msg:
-                return False, "Video requires sign-in to access"
-            else:
-                return False, error_msg
-
+            return False, result.stderr.strip() if result.stderr else "Unknown error"
     except subprocess.TimeoutExpired:
-        print(f"[ERROR] Download timed out after {timeout} seconds")
         return False, f"Download timed out after {timeout} seconds"
     except Exception as e:
-        print(f"[ERROR] Download exception: {e}")
         return False, str(e)
 
 
-def get_wav_duration(filepath):
-    """Get duration of WAV file in seconds."""
-    print(f"[AUDIO] Reading WAV file: {filepath}")
-    try:
-        with wave.open(filepath, 'rb') as wf:
-            frames = wf.getnframes()
-            rate = wf.getframerate()
-            channels = wf.getnchannels()
-            sampwidth = wf.getsampwidth()
-            duration = frames / float(rate)
-
-            print(f"[AUDIO] Sample rate: {rate} Hz")
-            print(f"[AUDIO] Channels: {channels}")
-            print(f"[AUDIO] Sample width: {sampwidth * 8} bits")
-            print(f"[AUDIO] Total frames: {frames}")
-            print(f"[AUDIO] Duration: {duration:.2f} seconds")
-
-            return duration
-    except wave.Error as e:
-        print(f"[ERROR] Invalid WAV file: {e}")
-        raise
-    except Exception as e:
-        print(f"[ERROR] Error reading WAV file: {e}")
-        raise
-
-
 def analyze_audio(filepath):
-    """
-    Analyze audio file for beat detection and spectral features.
-    Uses high-resolution analysis for precise beat-reactive movement.
-    Returns analysis dict or raises exception.
-    """
-    print()
-    print("[ANALYSIS] Starting HIGH-RESOLUTION audio analysis...")
+    """Analyze audio file for beat detection and spectral features."""
+    print("[ANALYSIS] Starting audio analysis...")
     print(f"[ANALYSIS] File: {filepath}")
 
-    file_size = os.path.getsize(filepath)
-    print(f"[ANALYSIS] File size: {file_size / (1024*1024):.2f} MB")
-
-    print("[ANALYSIS] Loading audio into memory...")
-    start_time = time.time()
-
-    try:
-        y, sr = librosa.load(filepath, sr=None)
-    except Exception as e:
-        print(f"[ERROR] Failed to load audio: {e}")
-        raise
-
-    load_time = time.time() - start_time
-    print(f"[ANALYSIS] Audio loaded in {load_time:.2f} seconds")
-    print(f"[ANALYSIS] Sample rate: {sr} Hz")
-    print(f"[ANALYSIS] Samples: {len(y)}")
+    y, sr = librosa.load(filepath, sr=None)
     print(f"[ANALYSIS] Duration: {len(y)/sr:.2f} seconds")
 
     hop_length = 256
-    frame_rate = sr / hop_length
-    print(f"[ANALYSIS] Using hop_length={hop_length} for {frame_rate:.1f} Hz temporal resolution")
+    tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop_length)
+    beat_times = librosa.frames_to_time(beat_frames, sr=sr, hop_length=hop_length)
 
-    print("[ANALYSIS] Detecting tempo and beats...")
-    try:
-        tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr, hop_length=hop_length)
-        beat_times = librosa.frames_to_time(beat_frames, sr=sr, hop_length=hop_length)
-    except Exception as e:
-        print(f"[ERROR] Beat detection failed: {e}")
-        raise
+    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop_length)
+    onset_times = librosa.times_like(onset_env, sr=sr, hop_length=hop_length)
+    onset_max = onset_env.max()
+    if onset_max > 0:
+        onset_env = onset_env / onset_max
 
-    print("[ANALYSIS] Computing onset strength envelope...")
-    try:
-        onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop_length)
-        onset_times = librosa.times_like(onset_env, sr=sr, hop_length=hop_length)
-        onset_max = onset_env.max()
-        if onset_max > 0:
-            onset_env = onset_env / onset_max
-        else:
-            print("[WARN] Onset envelope is all zeros")
-        print(f"[ANALYSIS] Onset envelope: {len(onset_env)} frames at {frame_rate:.1f} Hz")
-    except Exception as e:
-        print(f"[ERROR] Onset detection failed: {e}")
-        raise
+    S = np.abs(librosa.stft(y, hop_length=hop_length))
+    freqs = librosa.fft_frequencies(sr=sr)
 
-    print("[ANALYSIS] Detecting individual onsets (transients)...")
-    try:
-        onset_frames = librosa.onset.onset_detect(
-            y=y, sr=sr, hop_length=hop_length,
-            backtrack=True, units='frames'
-        )
-        onset_positions = librosa.frames_to_time(onset_frames, sr=sr, hop_length=hop_length)
-        print(f"[ANALYSIS] Found {len(onset_positions)} individual onsets/transients")
-    except Exception as e:
-        print(f"[WARN] Onset detection failed: {e}")
-        onset_positions = np.array([])
+    bass = S[freqs < 150, :].mean(axis=0)
+    mids = S[(freqs >= 500) & (freqs < 2000), :].mean(axis=0)
+    highs = S[freqs >= 6000, :].mean(axis=0)
 
-    print("[ANALYSIS] Computing high-resolution spectral features...")
-    try:
-        S = np.abs(librosa.stft(y, hop_length=hop_length))
-        freqs = librosa.fft_frequencies(sr=sr)
+    def normalize(arr):
+        m = arr.max()
+        return arr / m if m > 0 else arr
 
-        bass_mask = freqs < 150
-        low_mid_mask = (freqs >= 150) & (freqs < 500)
-        mid_mask = (freqs >= 500) & (freqs < 2000)
-        high_mid_mask = (freqs >= 2000) & (freqs < 6000)
-        high_mask = freqs >= 6000
-
-        print(f"[ANALYSIS] Frequency bands:")
-        print(f"[ANALYSIS]   Sub-bass (<150 Hz): {bass_mask.sum()} bins")
-        print(f"[ANALYSIS]   Low-mid (150-500 Hz): {low_mid_mask.sum()} bins")
-        print(f"[ANALYSIS]   Mid (500-2000 Hz): {mid_mask.sum()} bins")
-        print(f"[ANALYSIS]   High-mid (2-6 kHz): {high_mid_mask.sum()} bins")
-        print(f"[ANALYSIS]   High (>6 kHz): {high_mask.sum()} bins")
-
-        bass = S[bass_mask, :].mean(axis=0)
-        low_mids = S[low_mid_mask, :].mean(axis=0)
-        mids = S[mid_mask, :].mean(axis=0)
-        high_mids = S[high_mid_mask, :].mean(axis=0)
-        highs = S[high_mask, :].mean(axis=0)
-
-        def normalize(arr):
-            m = arr.max()
-            return arr / m if m > 0 else arr
-
-        bass = normalize(bass)
-        low_mids = normalize(low_mids)
-        mids = normalize(mids)
-        high_mids = normalize(high_mids)
-        highs = normalize(highs)
-
-        spec_times = librosa.frames_to_time(np.arange(S.shape[1]), sr=sr, hop_length=hop_length)
-
-    except Exception as e:
-        print(f"[ERROR] Spectral analysis failed: {e}")
-        raise
-
-    print("[ANALYSIS] Computing beat-synchronous features...")
-    try:
-        beat_onset_strength = np.zeros(len(beat_times))
-        for i, bt in enumerate(beat_times):
-            idx = np.searchsorted(onset_times, bt)
-            if idx < len(onset_env):
-                window_start = max(0, idx - 2)
-                window_end = min(len(onset_env), idx + 3)
-                beat_onset_strength[i] = onset_env[window_start:window_end].max()
-        print(f"[ANALYSIS] Beat onset strengths computed for {len(beat_times)} beats")
-    except Exception as e:
-        print(f"[WARN] Beat-sync computation failed: {e}")
-        beat_onset_strength = np.ones(len(beat_times))
+    bass, mids, highs = normalize(bass), normalize(mids), normalize(highs)
+    spec_times = librosa.frames_to_time(np.arange(S.shape[1]), sr=sr, hop_length=hop_length)
 
     if hasattr(tempo, '__len__'):
         tempo = float(tempo[0])
-    else:
-        tempo = float(tempo)
 
-    if tempo < 30 or tempo > 300:
-        print(f"[WARN] Unusual tempo detected: {tempo:.1f} BPM")
-
-    analysis_time = time.time() - start_time
-
-    print()
-    print("[ANALYSIS] === HIGH-RES RESULTS ===")
     print(f"[ANALYSIS] Tempo: {tempo:.1f} BPM")
     print(f"[ANALYSIS] Beats detected: {len(beat_times)}")
-    print(f"[ANALYSIS] Onsets detected: {len(onset_positions)}")
-    print(f"[ANALYSIS] Temporal resolution: {frame_rate:.1f} Hz ({1000/frame_rate:.1f} ms)")
-    print(f"[ANALYSIS] Analysis time: {analysis_time:.2f} seconds")
-    print()
 
     return {
         'tempo': tempo,
         'beat_times': beat_times,
-        'beat_strength': beat_onset_strength,
-        'onset_positions': onset_positions,
-        'onset_env': onset_env,
-        'onset_times': onset_times,
-        'bass': bass,
-        'low_mids': low_mids,
-        'mids': mids,
-        'high_mids': high_mids,
-        'highs': highs,
+        'bass': bass, 'mids': mids, 'highs': highs,
         'spec_times': spec_times,
         'duration': len(y) / sr,
         'sample_rate': sr,
-        'hop_length': hop_length,
-        'frame_rate': frame_rate
     }
 
 
@@ -416,104 +616,62 @@ def get_value_at_time(times, values, t):
     idx = np.searchsorted(times, t)
     if idx >= len(values):
         idx = len(values) - 1
-    if idx < 0:
-        idx = 0
     return float(values[idx])
 
 
 def dance_loop(mini, analysis, stop_event, error_event):
-    """
-    Smooth tempo-synced dance loop.
-    Uses detected BPM for groove with spectral modulation.
-    """
+    """Smooth tempo-synced dance loop."""
     print("[DANCE] Dance loop started")
 
     try:
-        bass = analysis['bass']
-        mids = analysis['mids']
-        highs = analysis['highs']
+        bass, mids, highs = analysis['bass'], analysis['mids'], analysis['highs']
         spec_times = analysis['spec_times']
         tempo = analysis['tempo']
-
         beat_freq = tempo / 60.0
-        half_beat_freq = beat_freq / 2.0
 
         print(f"[DANCE] Tempo: {tempo:.1f} BPM")
-        print(f"[DANCE] Beat frequency: {beat_freq:.2f} Hz")
 
         start_time = time.time()
         frame_count = 0
-        last_status_time = start_time
+        last_status = start_time
 
         while not stop_event.is_set():
             t = time.time() - start_time
 
-            try:
-                bass_val = get_value_at_time(spec_times, bass, t)
-                mid_val = get_value_at_time(spec_times, mids, t)
-                high_val = get_value_at_time(spec_times, highs, t)
-            except Exception as e:
-                print(f"[DANCE] Error getting spectral values: {e}")
-                bass_val = mid_val = high_val = 0.5
+            bass_val = get_value_at_time(spec_times, bass, t)
+            mid_val = get_value_at_time(spec_times, mids, t)
+            high_val = get_value_at_time(spec_times, highs, t)
 
-            try:
-                head_pitch = 10 * (0.5 + bass_val * 0.5) * np.sin(2 * np.pi * beat_freq * t)
-                head_yaw = 15 * (0.4 + mid_val * 0.6) * np.sin(2 * np.pi * half_beat_freq * t)
-                head_roll = 8 * np.sin(2 * np.pi * beat_freq * t + np.pi / 4)
+            head_pitch = 10 * (0.5 + bass_val * 0.5) * np.sin(2 * np.pi * beat_freq * t)
+            head_yaw = 15 * (0.4 + mid_val * 0.6) * np.sin(2 * np.pi * beat_freq / 2 * t)
+            head_roll = 8 * np.sin(2 * np.pi * beat_freq * t + np.pi / 4)
+            antenna_r = 0.8 * (0.3 + high_val * 0.7) * np.sin(2 * np.pi * beat_freq * 2 * t)
+            antenna_l = 0.8 * (0.3 + high_val * 0.7) * np.sin(2 * np.pi * beat_freq * 2 * t + np.pi)
+            body_yaw = np.deg2rad(12 * np.sin(2 * np.pi * beat_freq / 4 * t))
 
-                antenna_r = 0.8 * (0.3 + high_val * 0.7) * np.sin(2 * np.pi * beat_freq * 2 * t)
-                antenna_l = 0.8 * (0.3 + high_val * 0.7) * np.sin(2 * np.pi * beat_freq * 2 * t + np.pi)
-
-                body_yaw = np.deg2rad(12 * np.sin(2 * np.pi * half_beat_freq * t / 2))
-
-                pose = create_head_pose(pitch=head_pitch, yaw=head_yaw, roll=head_roll, degrees=True)
-                mini.set_target(head=pose, antennas=[antenna_r, antenna_l], body_yaw=body_yaw)
-
-            except Exception as e:
-                print(f"[DANCE] Error setting robot pose: {e}")
-                error_event.set()
-                break
+            pose = create_head_pose(pitch=head_pitch, yaw=head_yaw, roll=head_roll, degrees=True)
+            mini.set_target(head=pose, antennas=[antenna_r, antenna_l], body_yaw=body_yaw)
 
             frame_count += 1
 
-            if time.time() - last_status_time >= 10.0:
+            if time.time() - last_status >= 10.0:
                 elapsed = time.time() - start_time
                 fps = frame_count / elapsed if elapsed > 0 else 0
                 print(f"[DANCE] Status: {elapsed:.1f}s elapsed, {frame_count} frames, {fps:.1f} FPS")
-                last_status_time = time.time()
+                last_status = time.time()
 
             time.sleep(0.016)
 
         total_time = time.time() - start_time
-        avg_fps = frame_count / total_time if total_time > 0 else 0
-        print(f"[DANCE] Dance loop ended: {frame_count} frames in {total_time:.1f}s ({avg_fps:.1f} FPS)")
+        print(f"[DANCE] Dance loop ended: {frame_count} frames in {total_time:.1f}s")
 
     except Exception as e:
-        print(f"[DANCE] Fatal error in dance loop: {e}")
-        traceback.print_exc()
+        print(f"[DANCE] Fatal error: {e}")
         error_event.set()
 
 
-def check_daemon_connection():
-    """Check if Reachy daemon is accessible."""
-    print("[CHECK] Testing connection to Reachy daemon...")
-    try:
-        with ReachyMini() as mini:
-            print("[CHECK] Successfully connected to daemon")
-            return True
-    except Exception as e:
-        error_str = str(e)
-        if "7447" in error_str or "Zenoh" in error_str:
-            print("[ERROR] Cannot connect to Reachy daemon")
-            print("[ERROR] Make sure the daemon is running:")
-            print("[ERROR]   D:\\reachy_mini_env\\Scripts\\python.exe D:\\run_reachy_daemon.py")
-        else:
-            print(f"[ERROR] Connection test failed: {e}")
-        return False
-
-
 def prepare_track(url, volume_level='loud'):
-    """Download and prepare a track for playback. Returns (output_file, analysis) or (None, error_msg)."""
+    """Download and prepare a track for playback."""
     global CURRENT_VOLUME
     CURRENT_VOLUME = volume_level
 
@@ -521,7 +679,6 @@ def prepare_track(url, volume_level='loud'):
     if not is_valid:
         return None, f"Invalid URL: {error_msg}"
 
-    url = url.strip()
     get_video_title(url)
 
     temp_dir = tempfile.gettempdir()
@@ -534,7 +691,6 @@ def prepare_track(url, volume_level='loud'):
         except:
             pass
 
-    print()
     success, error_msg = download_audio(url, output_template)
     if not success:
         return None, f"Download failed: {error_msg}"
@@ -549,11 +705,9 @@ def prepare_track(url, volume_level='loud'):
         audio = AudioSegment.from_wav(output_file)
         boosted = audio + db_boost
         boosted.export(output_file, format="wav")
-        print(f"[AUDIO] Volume adjusted: {db_boost:+d} dB")
     except Exception as e:
         print(f"[WARN] Could not adjust volume: {e}")
 
-    print()
     try:
         analysis = analyze_audio(output_file)
     except Exception as e:
@@ -563,7 +717,7 @@ def prepare_track(url, volume_level='loud'):
 
 
 def play_track(mini, output_file, analysis, stop_event, error_event):
-    """Play a track with dancing. Returns when complete or interrupted."""
+    """Play a track with dancing."""
     duration = analysis['duration']
 
     dance_thread = threading.Thread(
@@ -582,37 +736,29 @@ def play_track(mini, output_file, analysis, stop_event, error_event):
     print("=" * 60)
     print()
 
-    dance_thread.start()
-
+    # Start audio FIRST, then dance
     try:
         mini.media.play_sound(output_file)
     except Exception as e:
         print(f"[WARN] Audio playback error: {e}")
 
+    dance_thread.start()
+
     try:
         start_time = time.time()
         while time.time() - start_time < duration:
-            if error_event.is_set():
-                print("[ERROR] Dance loop error")
-                break
-            if stop_event.is_set():
+            if error_event.is_set() or stop_event.is_set():
                 break
             time.sleep(0.1)
     except KeyboardInterrupt:
-        print()
-        print("[INFO] Skipping track...")
+        print("\n[INFO] Skipping track...")
 
     stop_event.set()
     dance_thread.join(timeout=2.0)
 
     print("[ROBOT] Returning to rest...")
     try:
-        mini.goto_target(
-            head=create_head_pose(),
-            antennas=[0, 0],
-            body_yaw=0,
-            duration=0.5
-        )
+        mini.goto_target(head=create_head_pose(), antennas=[0, 0], body_yaw=0, duration=0.5)
     except:
         pass
 
@@ -624,7 +770,7 @@ def play_track(mini, output_file, analysis, stop_event, error_event):
 
 
 def interactive_prompt():
-    """Show interactive prompt and get user input."""
+    """Show interactive prompt."""
     print()
     print("-" * 60)
     print("Commands: [URL] play track | [v]olume | [q]uit")
@@ -632,39 +778,228 @@ def interactive_prompt():
     print("-" * 60)
     try:
         return input("> ").strip()
-    except EOFError:
+    except (EOFError, KeyboardInterrupt):
         return "q"
-    except KeyboardInterrupt:
-        print()
-        return ""
 
 
 def change_volume():
     """Prompt user to change volume."""
     global CURRENT_VOLUME
-    print()
-    print("Volume levels: quiet (-6dB) | normal (0dB) | loud (+6dB) | max (+12dB)")
-    print(f"Current: {CURRENT_VOLUME}")
+    print("\nVolume levels: quiet (-6dB) | normal (0dB) | loud (+6dB) | max (+12dB)")
     try:
         choice = input("New volume: ").strip().lower()
         if choice in VOLUME_LEVELS:
             CURRENT_VOLUME = choice
             print(f"[VOLUME] Set to {CURRENT_VOLUME}")
-        else:
-            print("[WARN] Invalid choice, keeping current volume")
     except:
         pass
 
 
+# ============================================================================
+# CHOREOGRAPHED DANCE MODE
+# ============================================================================
+
+def run_choreographed_mode(volume_level='loud'):
+    """Run the special choreographed dance for 'I Wanna Be Like You'."""
+    global CURRENT_VOLUME
+    CURRENT_VOLUME = volume_level
+
+    print()
+    print("=" * 60)
+    print("  CHOREOGRAPHED DANCE MODE")
+    print(f"  Song: {CHOREO_SONG_TITLE}")
+    print("=" * 60)
+    print()
+
+    temp_dir = tempfile.gettempdir()
+    output_template = os.path.join(temp_dir, "reachy_choreo.%(ext)s")
+    output_file = os.path.join(temp_dir, "reachy_choreo.wav")
+
+    if os.path.exists(output_file):
+        try:
+            os.remove(output_file)
+        except:
+            pass
+
+    print(f"[DOWNLOAD] Fetching: {CHOREO_SONG_TITLE}")
+    success, error_msg = download_audio(CHOREO_SONG_URL, output_template)
+    if not success:
+        print(f"[ERROR] Download failed: {error_msg}")
+        return 1
+
+    if not os.path.exists(output_file):
+        print("[ERROR] Audio file not created")
+        return 1
+
+    db_boost = VOLUME_LEVELS.get(volume_level, 6)
+    print(f"[AUDIO] Applying volume: {volume_level} ({db_boost:+d} dB)")
+    try:
+        from pydub import AudioSegment
+        audio = AudioSegment.from_wav(output_file)
+        boosted = audio + db_boost
+        boosted.export(output_file, format="wav")
+    except Exception as e:
+        print(f"[WARN] Could not adjust volume: {e}")
+
+    print("[ANALYSIS] Detecting tempo...")
+    y, sr = librosa.load(output_file, sr=None)
+    duration = len(y) / sr
+    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    if hasattr(tempo, '__len__'):
+        tempo = float(tempo[0])
+    beat_freq = tempo / 60.0
+    print(f"[ANALYSIS] Duration: {duration:.2f}s, Tempo: {tempo:.1f} BPM")
+
+    engine = ChoreographyEngine()
+
+    print()
+    print("[ROBOT] Connecting to Reachy Mini...")
+
+    try:
+        with ReachyMini() as mini:
+            print("[ROBOT] Connected!")
+
+            try:
+                mini.wake_up()
+                print("[ROBOT] Reachy is awake")
+            except Exception as e:
+                print(f"[WARN] Wake up: {e}")
+
+            time.sleep(1)
+
+            print("[ROBOT] Moving to start position...")
+            try:
+                mini.goto_target(
+                    head=create_head_pose(pitch=0, yaw=0, roll=0, degrees=True),
+                    antennas=[0, 0], body_yaw=0, duration=1.0
+                )
+                time.sleep(1)
+            except:
+                pass
+
+            print()
+            print("=" * 60)
+            print("  STARTING CHOREOGRAPHED DANCE!")
+            print(f"  Duration: {duration:.1f}s | Tempo: {tempo:.1f} BPM")
+            print("  50 lyric-triggered movement sequences")
+            print("  Press Ctrl+C to stop")
+            print("=" * 60)
+            print()
+
+            # Start audio FIRST
+            try:
+                mini.media.play_sound(output_file)
+            except Exception as e:
+                print(f"[WARN] Audio: {e}")
+
+            # THEN start dance loop
+            start_time = time.time()
+            frame_count = 0
+            last_status = start_time
+
+            try:
+                while True:
+                    t = time.time() - start_time
+                    if t >= duration:
+                        break
+
+                    # Beat sync base
+                    bp = 8 * 0.5 * np.sin(2 * np.pi * beat_freq * t)
+                    by = 12 * 0.4 * np.sin(2 * np.pi * beat_freq / 2 * t)
+                    br = 6 * np.sin(2 * np.pi * beat_freq * t + np.pi / 4)
+                    ba = 0.4 + 0.2 * np.sin(2 * np.pi * beat_freq * 2 * t)
+                    bb = 10 * np.sin(2 * np.pi * beat_freq / 4 * t)
+
+                    beat_pose = Pose(bp, by, br, ba, ba, bb)
+                    choreo_pose, weight = engine.update(t)
+                    final = blend_choreo(beat_pose, choreo_pose, weight)
+
+                    try:
+                        pose = create_head_pose(
+                            pitch=final.head_pitch, yaw=final.head_yaw,
+                            roll=final.head_roll, degrees=True
+                        )
+                        mini.set_target(
+                            head=pose,
+                            antennas=[final.antenna_left, final.antenna_right],
+                            body_yaw=np.deg2rad(final.body_yaw)
+                        )
+                    except:
+                        pass
+
+                    frame_count += 1
+
+                    if time.time() - last_status >= 10.0:
+                        fps = frame_count / t if t > 0 else 0
+                        print(f"[DANCE] {t:.1f}s, {frame_count} frames, {fps:.1f} FPS, "
+                              f"triggers: {engine.triggers_fired}/50")
+                        last_status = time.time()
+
+                    time.sleep(0.016)
+
+            except KeyboardInterrupt:
+                print("\n[INFO] Dance interrupted")
+
+            print()
+            print("[ROBOT] Returning to rest...")
+            try:
+                mini.goto_target(
+                    head=create_head_pose(pitch=0, yaw=0, roll=0, degrees=True),
+                    antennas=[0, 0], body_yaw=0, duration=1.0
+                )
+                time.sleep(1)
+            except:
+                pass
+
+            print("[ROBOT] Going to sleep...")
+            try:
+                mini.goto_sleep()
+            except:
+                pass
+
+            if os.path.exists(output_file):
+                try:
+                    os.remove(output_file)
+                except:
+                    pass
+
+            total = time.time() - start_time
+            print()
+            print("=" * 60)
+            print("  CHOREOGRAPHED DANCE COMPLETE!")
+            print(f"  {frame_count} frames in {total:.1f}s ({frame_count/total:.1f} FPS)")
+            print(f"  Triggers fired: {engine.triggers_fired}/50")
+            print("=" * 60)
+
+    except Exception as e:
+        error_str = str(e)
+        print(f"[ERROR] {e}")
+        if "7447" in error_str or "Zenoh" in error_str:
+            print("\nStart the daemon first:")
+            print("  python start_daemon.py")
+        return 1
+
+    return 0
+
+
+# ============================================================================
+# MAIN
+# ============================================================================
+
 def main():
-    """Main entry point with interactive loop."""
+    """Main entry point."""
     global CURRENT_VOLUME
 
     parser = argparse.ArgumentParser(description="Reachy YouTube Dance")
     parser.add_argument('url', nargs='?', help='YouTube URL to play')
     parser.add_argument('--volume', '-v', choices=['quiet', 'normal', 'loud', 'max'],
                         default='loud', help='Volume level (default: loud)')
+    parser.add_argument('--choreo', action='store_true',
+                        help="Run choreographed dance (I Wanna Be Like You)")
     args = parser.parse_args()
+
+    if args.choreo:
+        return run_choreographed_mode(args.volume)
 
     CURRENT_VOLUME = args.volume
 
@@ -742,7 +1077,7 @@ def main():
         if "7447" in error_str or "Zenoh" in error_str:
             print()
             print("Start the daemon first:")
-            print("  D:\\reachy_mini_env\\Scripts\\python.exe D:\\run_reachy_daemon.py")
+            print("  python start_daemon.py")
 
         return 1
 
