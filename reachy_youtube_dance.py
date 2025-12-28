@@ -4,8 +4,13 @@ Reachy YouTube Dance Script
 Makes Reachy Mini dance to YouTube videos with beat-synced movements.
 
 Usage:
+    # Basic beat-sync dance
     python reachy_youtube_dance.py [URL] [--volume normal|loud|max] [--time normal|half|double]
+
+    # With config file (time switches)
     python reachy_youtube_dance.py --config configs/jailhouse_rock.json
+
+    # With config file (choreographed triggers)
     python reachy_youtube_dance.py --config configs/jungle_book.json
 
     Interactive commands during session:
@@ -123,28 +128,9 @@ print()
 # ============================================================================
 # CHOREOGRAPHY SYSTEM
 # ============================================================================
-# Lyric-triggered choreography for "I Wanna Be Like You" (The Jungle Book)
-# with multi-phase sequences, anticipation, follow-through, and personality.
-
-CHOREO_SONG_URL = "https://www.youtube.com/watch?v=GokDMNue2Xc"
-CHOREO_SONG_TITLE = "I Wanna Be Like You - The Jungle Book"
-
-# Whisper transcription timestamps (word-level, corrected)
-CHOREO_TIMESTAMPS = {
-    "king": 8.50, "swingers": 9.20, "jungle": 10.58, "VIP": 10.94,
-    "top": 13.56, "stop": 14.70, "botherin": 16.44, "wanna_1": 17.90,
-    "man": 18.54, "stroll": 20.20, "tired": 25.18, "around": 26.26,
-    "oobee": 27.12, "like_1": 29.80, "you_1": 30.14, "walk": 32.64,
-    "like_2": 32.94, "you_2": 33.26, "talk": 33.74, "like_3": 34.02,
-    "you_3": 34.42, "true": 36.00, "ape": 38.50, "human": 40.50,
-    "deal": 71.76, "secret_1": 75.40, "fire_1": 77.50,  # fire_2 removed: 79.92 is Mowgli's spoken "I don't know how to make fire", not King Louie singing
-    "kid": 82.28, "desire": 86.54, "fire_3": 88.12, "dream": 89.30,
-    "secret_2": 91.56, "power": 96.46, "flower": 97.82, "you_4": 99.70,
-    "bam_1": 125.52, "bam_2": 126.14, "bam_3": 126.56, "bam_4": 126.90,
-    "like_4": 159.22, "like_5": 163.24, "learn": 167.36, "you_5": 169.60,
-    "one_more_time": 170.42, "like_6": 173.02,
-    "bam_5": 177.10, "bam_6": 177.56, "bam_7": 177.88, "bam_8": 178.00,
-}
+# Lyric-triggered choreography with multi-phase sequences.
+# Movement triggers are loaded from config JSON files.
+# See configs/jungle_book.json for an example.
 
 
 @dataclass
@@ -397,71 +383,60 @@ def seq_aspiring() -> Sequence:
     ], 0.9)
 
 
+# Mapping from move names (in config JSON) to sequence functions
+MOVE_SEQUENCES = {
+    "king": seq_king,
+    "swingers": seq_swingers,
+    "conspiratorial": seq_conspiratorial,
+    "vip": seq_vip,
+    "point_up": seq_point_up,
+    "frustrated": seq_frustrated,
+    "walk": seq_walk,
+    "talk": seq_talk,
+    "fire": seq_fire,
+    "dream": seq_dream,
+    "power": seq_power,
+    "aspiring": seq_aspiring,
+    "like": None,  # Special: alternates left/right
+    "bam": None,   # Special: cycles through variations
+}
+
+
 class ChoreographyEngine:
     """Manages lyric-triggered choreography with multi-phase sequences."""
 
-    def __init__(self):
+    def __init__(self, config: Optional[Dict] = None):
         self.active_sequence: Optional[Sequence] = None
         self.sequence_start_time: float = 0
         self.like_counter: int = 0
         self.bam_counter: int = 0
         self.triggers_fired: int = 0
-        self.triggers = self._build_triggers()
+        self.triggers = self._build_triggers_from_config(config) if config else []
         self.current_idx = 0
 
-    def _build_triggers(self) -> List[dict]:
-        ts = CHOREO_TIMESTAMPS
-        return [
-            {"time": ts["king"], "fn": seq_king},
-            {"time": ts["swingers"], "fn": seq_swingers},
-            {"time": ts["jungle"], "fn": seq_conspiratorial},
-            {"time": ts["VIP"], "fn": seq_vip},
-            {"time": ts["top"], "fn": seq_point_up},
-            {"time": ts["stop"], "fn": seq_point_up},
-            {"time": ts["botherin"], "fn": seq_frustrated},
-            {"time": ts["wanna_1"], "fn": lambda: self._get_like()},
-            {"time": ts["man"], "fn": seq_point_up},
-            {"time": ts["stroll"], "fn": seq_walk},
-            {"time": ts["tired"], "fn": seq_frustrated},
-            {"time": ts["around"], "fn": seq_swingers},
-            {"time": ts["oobee"], "fn": lambda: self._get_bam()},
-            {"time": ts["like_1"], "fn": lambda: self._get_like()},
-            {"time": ts["you_1"], "fn": seq_point_up},
-            {"time": ts["walk"], "fn": seq_walk},
-            {"time": ts["like_2"], "fn": lambda: self._get_like()},
-            {"time": ts["you_2"], "fn": seq_point_up},
-            {"time": ts["talk"], "fn": seq_talk},
-            {"time": ts["like_3"], "fn": lambda: self._get_like()},
-            {"time": ts["you_3"], "fn": seq_point_up},
-            {"time": ts["true"], "fn": seq_point_up},
-            {"time": ts["ape"], "fn": seq_frustrated},
-            {"time": ts["human"], "fn": seq_aspiring},
-            {"time": ts["deal"], "fn": seq_conspiratorial},
-            {"time": ts["secret_1"], "fn": seq_conspiratorial},
-            {"time": ts["fire_1"], "fn": seq_fire},
-            {"time": ts["kid"], "fn": seq_frustrated},
-            {"time": ts["desire"], "fn": seq_dream},
-            {"time": ts["fire_3"], "fn": seq_fire},
-            {"time": ts["dream"], "fn": seq_dream},
-            {"time": ts["secret_2"], "fn": seq_conspiratorial},
-            {"time": ts["power"], "fn": seq_power},
-            {"time": ts["flower"], "fn": seq_fire},
-            {"time": ts["you_4"], "fn": seq_point_up},
-            {"time": ts["bam_1"], "fn": lambda: self._get_bam()},
-            {"time": ts["bam_2"], "fn": lambda: self._get_bam()},
-            {"time": ts["bam_3"], "fn": lambda: self._get_bam()},
-            {"time": ts["bam_4"], "fn": lambda: self._get_bam()},
-            {"time": ts["like_4"], "fn": lambda: self._get_like()},
-            {"time": ts["like_5"], "fn": lambda: self._get_like()},
-            {"time": ts["learn"], "fn": seq_aspiring},
-            {"time": ts["you_5"], "fn": seq_point_up},
-            {"time": ts["one_more_time"], "fn": seq_power},
-            {"time": ts["like_6"], "fn": lambda: self._get_like()},
-            {"time": ts["bam_5"], "fn": lambda: self._get_bam()},
-            {"time": ts["bam_6"], "fn": lambda: self._get_bam()},
-            {"time": ts["bam_7"], "fn": lambda: self._get_bam()},
-            {"time": ts["bam_8"], "fn": lambda: self._get_bam()},
-        ]
+    def _build_triggers_from_config(self, config: Dict) -> List[dict]:
+        """Build triggers list from config JSON."""
+        triggers = []
+        for trigger in config.get('triggers', []):
+            time_val = trigger['at']
+            move_name = trigger['move']
+
+            # Handle special alternating moves
+            if move_name == 'like':
+                fn = lambda: self._get_like()
+            elif move_name == 'bam':
+                fn = lambda: self._get_bam()
+            else:
+                fn = MOVE_SEQUENCES.get(move_name)
+                if fn is None:
+                    print(f"[WARN] Unknown move: {move_name}")
+                    continue
+
+            triggers.append({"time": time_val, "fn": fn})
+
+        # Sort by time
+        triggers.sort(key=lambda x: x['time'])
+        return triggers
 
     def _get_like(self) -> Sequence:
         self.like_counter += 1
@@ -853,15 +828,26 @@ def change_volume():
 # CHOREOGRAPHED DANCE MODE
 # ============================================================================
 
-def run_choreographed_mode(volume_level='loud'):
-    """Run the special choreographed dance for 'I Wanna Be Like You'."""
+def run_choreographed_mode(config: Dict, volume_level='loud'):
+    """Run choreographed dance with triggers from config."""
     global CURRENT_VOLUME
     CURRENT_VOLUME = volume_level
+
+    song_title = config.get('title', 'Unknown')
+    song_url = config.get('url')
+
+    if not song_url:
+        print("[ERROR] Config missing 'url' field")
+        return 1
+
+    if 'triggers' not in config:
+        print("[ERROR] Config missing 'triggers' field")
+        return 1
 
     print()
     print("=" * 60)
     print("  CHOREOGRAPHED DANCE MODE")
-    print(f"  Song: {CHOREO_SONG_TITLE}")
+    print(f"  Song: {song_title}")
     print("=" * 60)
     print()
 
@@ -875,8 +861,8 @@ def run_choreographed_mode(volume_level='loud'):
         except:
             pass
 
-    print(f"[DOWNLOAD] Fetching: {CHOREO_SONG_TITLE}")
-    success, error_msg = download_audio(CHOREO_SONG_URL, output_template)
+    print(f"[DOWNLOAD] Fetching: {song_title}")
+    success, error_msg = download_audio(song_url, output_template)
     if not success:
         print(f"[ERROR] Download failed: {error_msg}")
         return 1
@@ -904,7 +890,8 @@ def run_choreographed_mode(volume_level='loud'):
     beat_freq = tempo / 60.0
     print(f"[ANALYSIS] Duration: {duration:.2f}s, Tempo: {tempo:.1f} BPM")
 
-    engine = ChoreographyEngine()
+    engine = ChoreographyEngine(config)
+    num_triggers = len(engine.triggers)
 
     print()
     print("[ROBOT] Connecting to Reachy Mini...")
@@ -935,7 +922,7 @@ def run_choreographed_mode(volume_level='loud'):
             print("=" * 60)
             print("  STARTING CHOREOGRAPHED DANCE!")
             print(f"  Duration: {duration:.1f}s | Tempo: {tempo:.1f} BPM")
-            print("  50 lyric-triggered movement sequences")
+            print(f"  {num_triggers} lyric-triggered movement sequences")
             print("  Press Ctrl+C to stop")
             print("=" * 60)
             print()
@@ -986,7 +973,7 @@ def run_choreographed_mode(volume_level='loud'):
                     if time.time() - last_status >= 10.0:
                         fps = frame_count / t if t > 0 else 0
                         print(f"[DANCE] {t:.1f}s, {frame_count} frames, {fps:.1f} FPS, "
-                              f"triggers: {engine.triggers_fired}/50")
+                              f"triggers: {engine.triggers_fired}/{num_triggers}")
                         last_status = time.time()
 
                     time.sleep(0.016)
@@ -1022,7 +1009,7 @@ def run_choreographed_mode(volume_level='loud'):
             print("=" * 60)
             print("  CHOREOGRAPHED DANCE COMPLETE!")
             print(f"  {frame_count} frames in {total:.1f}s ({frame_count/total:.1f} FPS)")
-            print(f"  Triggers fired: {engine.triggers_fired}/50")
+            print(f"  Triggers fired: {engine.triggers_fired}/{num_triggers}")
             print("=" * 60)
 
     except Exception as e:
@@ -1052,8 +1039,6 @@ def main():
                         default='normal', help='Groove timing relative to detected BPM (default: normal)')
     parser.add_argument('--config', '-c', type=str,
                         help='Path to JSON config file for song-specific settings')
-    parser.add_argument('--choreo', action='store_true',
-                        help="Run choreographed dance (I Wanna Be Like You)")
     args = parser.parse_args()
 
     # Load config if provided
@@ -1073,8 +1058,9 @@ def main():
             print(f"[ERROR] Failed to load config: {e}")
             return 1
 
-    if args.choreo:
-        return run_choreographed_mode(args.volume)
+    # If config has triggers, run choreographed mode
+    if config and 'triggers' in config:
+        return run_choreographed_mode(config, args.volume)
 
     CURRENT_VOLUME = args.volume
     CURRENT_TIME = args.time
