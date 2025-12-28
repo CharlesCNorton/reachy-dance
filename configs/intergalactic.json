@@ -1,0 +1,136 @@
+{
+  "title": "Intergalactic - Beastie Boys",
+  "url": "https://www.youtube.com/watch?v=ln-Jq6X6p-g",
+  "default_time": "normal",
+  "movements": {
+    "robot_snap": {
+      "phases": [
+        {"pose": [0, -22, 0, 0.4, 0.8, 0], "duration": 0.18, "ease": "snap"},
+        {"pose": [0, -22, 0, 0.4, 0.8, 0], "duration": 0.12, "ease": "smooth"},
+        {"pose": [0, 22, 0, 0.8, 0.4, 0], "duration": 0.18, "ease": "snap"},
+        {"pose": [0, 22, 0, 0.8, 0.4, 0], "duration": 0.12, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.9, 0.9, 0], "duration": 0.15, "ease": "snap"},
+        {"pose": [10, 0, 0, 0.9, 0.9, 0], "duration": 0.1, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "robot_isolation": {
+      "phases": [
+        {"pose": [0, 15, 0, 0.5, 0.5, -12], "duration": 0.15, "ease": "snap"},
+        {"pose": [0, 15, 0, 0.5, 0.5, -12], "duration": 0.1, "ease": "smooth"},
+        {"pose": [0, -15, 0, 0.5, 0.5, 12], "duration": 0.15, "ease": "snap"},
+        {"pose": [0, -15, 0, 0.5, 0.5, 12], "duration": 0.1, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.6, 0.6, 0], "duration": 0.15, "ease": "snap"}
+      ],
+      "blend_weight": 0.95
+    },
+    "antenna_pop": {
+      "phases": [
+        {"pose": [8, 0, 0, 1.0, 0.2, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [8, 0, 0, 0.2, 1.0, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [8, 0, 0, 1.0, 0.2, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [8, 0, 0, 0.2, 1.0, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [12, 0, 0, 1.0, 1.0, 0], "duration": 0.15, "ease": "snap"},
+        {"pose": [12, 0, 0, 1.0, 1.0, 0], "duration": 0.12, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "angular_pose": {
+      "phases": [
+        {"pose": [8, -18, -12, 0.8, 0.3, -8], "duration": 0.18, "ease": "snap"},
+        {"pose": [8, -18, -12, 0.8, 0.3, -8], "duration": 0.12, "ease": "smooth"},
+        {"pose": [8, 18, 12, 0.3, 0.8, 8], "duration": 0.18, "ease": "snap"},
+        {"pose": [8, 18, 12, 0.3, 0.8, 8], "duration": 0.12, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.9, 0.9, 0], "duration": 0.18, "ease": "snap"}
+      ],
+      "blend_weight": 0.95
+    },
+    "scan": {
+      "phases": [
+        {"pose": [5, -25, 0, 0.6, 0.4, 0], "duration": 0.2, "ease": "snap"},
+        {"pose": [5, -25, 0, 0.6, 0.4, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [5, 25, 0, 0.4, 0.6, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [5, 25, 0, 0.4, 0.6, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.7, 0.7, 0], "duration": 0.2, "ease": "snap"}
+      ],
+      "blend_weight": 0.9
+    },
+    "stutter": {
+      "phases": [
+        {"pose": [3, -8, 0, 0.5, 0.5, -5], "duration": 0.1, "ease": "snap"},
+        {"pose": [3, 8, 0, 0.5, 0.5, 5], "duration": 0.1, "ease": "snap"},
+        {"pose": [3, -8, 0, 0.5, 0.5, -5], "duration": 0.1, "ease": "snap"},
+        {"pose": [3, 8, 0, 0.5, 0.5, 5], "duration": 0.1, "ease": "snap"},
+        {"pose": [10, 0, 0, 0.8, 0.8, 0], "duration": 0.15, "ease": "snap"}
+      ],
+      "blend_weight": 0.9
+    },
+    "power_pose": {
+      "phases": [
+        {"pose": [-8, 0, 0, 0.2, 0.2, 0], "duration": 0.2, "ease": "snap"},
+        {"pose": [-8, 0, 0, 0.2, 0.2, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.18, "ease": "snap"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.2, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.6, 0.6, 0], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "dimension": {
+      "phases": [
+        {"pose": [5, -25, 0, 0.6, 0.4, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [5, 25, 0, 0.4, 0.6, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.7, 0.7, 0], "duration": 0.2, "ease": "snap"}
+      ],
+      "blend_weight": 0.85
+    }
+  },
+  "triggers": [
+    {"at": 0.5, "move": "robot_snap", "_lyric": "Intergalactic planetary 1"},
+    {"at": 3.0, "move": "robot_isolation", "_lyric": "planetary intergalactic 1"},
+    {"at": 5.5, "move": "antenna_pop", "_lyric": "Intergalactic planetary 2"},
+    {"at": 8.0, "move": "angular_pose", "_lyric": "planetary intergalactic 2"},
+    {"at": 10.5, "move": "robot_snap", "_lyric": "Intergalactic planetary 3"},
+    {"at": 13.0, "move": "stutter", "_lyric": "planetary intergalactic 3"},
+    {"at": 15.5, "move": "power_pose", "_lyric": "Intergalactic planetary 4"},
+    {"at": 18.0, "move": "robot_isolation", "_lyric": "planetary intergalactic 4"},
+
+    {"at": 20.0, "move": "dimension", "_lyric": "Another dimension 1"},
+    {"at": 22.0, "move": "scan", "_lyric": "another dimension 1"},
+    {"at": 24.0, "move": "dimension", "_lyric": "Another dimension 2"},
+    {"at": 26.0, "move": "scan", "_lyric": "another dimension 2"},
+    {"at": 28.0, "move": "dimension", "_lyric": "Another dimension 3"},
+
+    {"at": 68.78, "move": "robot_snap", "_lyric": "Intergalactic planetary - chorus 1"},
+    {"at": 71.5, "move": "antenna_pop", "_lyric": "planetary intergalactic"},
+    {"at": 73.3, "move": "robot_isolation", "_lyric": "Intergalactic planetary"},
+    {"at": 75.5, "move": "power_pose", "_lyric": "planetary intergalactic"},
+
+    {"at": 108.5, "move": "dimension", "_lyric": "Another dimension"},
+    {"at": 109.78, "move": "scan", "_lyric": "new galaxy"},
+    {"at": 111.72, "move": "robot_snap", "_lyric": "Intergalactic planetary"},
+
+    {"at": 118.42, "move": "robot_snap", "_lyric": "Intergalactic - extended chorus"},
+    {"at": 120.5, "move": "antenna_pop"},
+    {"at": 122.44, "move": "angular_pose"},
+    {"at": 124.5, "move": "robot_isolation"},
+    {"at": 126.86, "move": "stutter"},
+    {"at": 129.0, "move": "power_pose"},
+    {"at": 131.0, "move": "robot_snap"},
+
+    {"at": 172.9, "move": "robot_snap", "_lyric": "Final section"},
+    {"at": 175.5, "move": "antenna_pop"},
+    {"at": 177.96, "move": "angular_pose"},
+    {"at": 180.0, "move": "robot_isolation"},
+    {"at": 182.5, "move": "stutter"},
+    {"at": 185.0, "move": "power_pose"},
+    {"at": 187.5, "move": "robot_snap"},
+    {"at": 190.0, "move": "antenna_pop"},
+    {"at": 192.5, "move": "angular_pose"},
+    {"at": 195.0, "move": "robot_isolation"},
+    {"at": 197.5, "move": "dimension"},
+    {"at": 200.0, "move": "scan"},
+    {"at": 202.5, "move": "robot_snap"},
+    {"at": 205.0, "move": "power_pose"},
+    {"at": 207.5, "move": "antenna_pop"}
+  ]
+}
