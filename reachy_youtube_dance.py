@@ -170,6 +170,7 @@ class Pose:
     antenna_left: float = 0.0
     antenna_right: float = 0.0
     body_yaw: float = 0.0
+    head_z: float = 0.0  # Z translation in meters
 
     def lerp(self, other: 'Pose', t: float) -> 'Pose':
         t = max(0, min(1, t))
@@ -180,6 +181,7 @@ class Pose:
             self.antenna_left + (other.antenna_left - self.antenna_left) * t,
             self.antenna_right + (other.antenna_right - self.antenna_right) * t,
             self.body_yaw + (other.body_yaw - self.body_yaw) * t,
+            self.head_z + (other.head_z - self.head_z) * t,
         )
 
     def clamped(self) -> 'Pose':
@@ -187,10 +189,10 @@ class Pose:
             self.head_pitch, self.head_yaw, self.head_roll,
             self.antenna_left, self.antenna_right, self.body_yaw
         )
-        return Pose(p, y, r, al, ar, by)
+        return Pose(p, y, r, al, ar, by, self.head_z)
 
 
-REST_POSE = Pose(0, 0, 0, 0, 0, 0)
+REST_POSE = Pose(0, 0, 0, 0, 0, 0, 0)
 
 
 @dataclass
@@ -239,10 +241,12 @@ def parse_movement_from_config(move_def: dict) -> Sequence:
     """Parse a movement definition from config JSON into a Sequence."""
     phases = []
     for phase_def in move_def.get('phases', []):
-        pose_vals = phase_def['pose']  # [pitch, yaw, roll, ant_l, ant_r, body_yaw]
+        pose_vals = phase_def['pose']  # [pitch, yaw, roll, ant_l, ant_r, body_yaw, head_z?]
+        head_z = pose_vals[6] if len(pose_vals) > 6 else 0.0
         pose = Pose(
             pose_vals[0], pose_vals[1], pose_vals[2],
-            pose_vals[3], pose_vals[4], pose_vals[5]
+            pose_vals[3], pose_vals[4], pose_vals[5],
+            head_z
         )
         phases.append(Phase(pose, phase_def['duration'], phase_def.get('ease', 'smooth')))
     return Sequence(phases, move_def.get('blend_weight', 0.85))
@@ -805,14 +809,14 @@ def run_choreographed_mode(config: Dict, volume_level='loud'):
                         br = 6 * np.sin(2 * np.pi * beat_freq * t + np.pi / 4)
                         ba = 0.4 + 0.2 * np.sin(2 * np.pi * beat_freq * 2 * t)
                         bb = 10 * np.sin(2 * np.pi * beat_freq / 4 * t)
-                        beat_pose = Pose(bp, by, br, ba, ba, bb)
+                        beat_pose = Pose(bp, by, br, ba, ba, bb, 0)
                     choreo_pose, weight = engine.update(t)
                     final = blend_choreo(beat_pose, choreo_pose, weight)
 
                     try:
                         pose = create_head_pose(
                             pitch=final.head_pitch, yaw=final.head_yaw,
-                            roll=final.head_roll, degrees=True
+                            roll=final.head_roll, z=final.head_z, degrees=True
                         )
                         mini.set_target(
                             head=pose,

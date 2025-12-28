@@ -82,6 +82,14 @@
         {"pose": [8, 0, 0, 0.7, 0.7, 0], "duration": 0.2, "ease": "snap"}
       ],
       "blend_weight": 0.85
+    },
+    "drop": {
+      "phases": [
+        {"pose": [0, 0, 0, 0.1, 0.1, 0, -0.035], "duration": 0.4, "ease": "smooth"},
+        {"pose": [0, 0, 0, 0.1, 0.1, 0, -0.035], "duration": 0.4, "ease": "smooth"},
+        {"pose": [0, 0, 0, 0.5, 0.5, 0, 0], "duration": 1.0, "ease": "smooth"}
+      ],
+      "blend_weight": 1.0
     }
   },
   "triggers": [
@@ -116,6 +124,8 @@
     {"at": 126.86, "move": "stutter"},
     {"at": 129.0, "move": "power_pose"},
     {"at": 131.0, "move": "robot_snap"},
+
+    {"at": 153.36, "move": "drop", "_lyric": "Mmm, DROOOOOOP"},
 
     {"at": 172.9, "move": "robot_snap", "_lyric": "Final section"},
     {"at": 175.5, "move": "antenna_pop"},
