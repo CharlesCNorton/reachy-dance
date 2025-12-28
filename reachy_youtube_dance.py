@@ -4,8 +4,9 @@ Reachy YouTube Dance Script
 Makes Reachy Mini dance to YouTube videos with beat-synced movements.
 
 Usage:
-    python reachy_youtube_dance.py [URL] [--volume normal|loud|max]
-    python reachy_youtube_dance.py --choreo  # Special choreographed dance
+    python reachy_youtube_dance.py [URL] [--volume normal|loud|max] [--time normal|half|double]
+    python reachy_youtube_dance.py --config configs/jailhouse_rock.json
+    python reachy_youtube_dance.py --config configs/jungle_book.json
 
     Interactive commands during session:
         - Enter URL to play new track
@@ -20,6 +21,7 @@ Requirements:
 import sys
 import os
 import re
+import json
 import argparse
 import tempfile
 import threading
@@ -28,7 +30,7 @@ import wave
 import subprocess
 import traceback
 from dataclasses import dataclass
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Dict, Any
 
 VOLUME_LEVELS = {
     'normal': 0,
@@ -52,6 +54,32 @@ TIME_MULTIPLIERS = {
 CURRENT_TIME = 'normal'
 
 CURRENT_VOLUME = 'loud'
+
+# Loaded config (from --config JSON file)
+CURRENT_CONFIG: Optional[Dict[str, Any]] = None
+
+
+def load_config(config_path: str) -> Dict[str, Any]:
+    """Load a song config from JSON file."""
+    with open(config_path, 'r') as f:
+        return json.load(f)
+
+
+def get_time_multiplier_at(t: float, config: Optional[Dict] = None) -> float:
+    """
+    Get the time multiplier at a given timestamp.
+    Checks config time_switches first, falls back to CURRENT_TIME.
+    """
+    base_mult = TIME_MULTIPLIERS.get(CURRENT_TIME, 1.0)
+
+    if config and 'time_switches' in config:
+        # Find the most recent time switch before t
+        for switch in reversed(config['time_switches']):
+            if t >= switch['at']:
+                return TIME_MULTIPLIERS.get(switch['time'], base_mult)
+
+    return base_mult
+
 
 print("=" * 60)
 print("REACHY YOUTUBE DANCE")
@@ -632,8 +660,8 @@ def get_value_at_time(times, values, t):
     return float(values[idx])
 
 
-def dance_loop(mini, analysis, stop_event, error_event):
-    """Smooth tempo-synced dance loop."""
+def dance_loop(mini, analysis, stop_event, error_event, config=None):
+    """Smooth tempo-synced dance loop with optional config for time switches."""
     print("[DANCE] Dance loop started")
 
     try:
@@ -642,14 +670,16 @@ def dance_loop(mini, analysis, stop_event, error_event):
 
         # Detected tempo from librosa (the song's actual BPM)
         detected_tempo = analysis['tempo']
-
-        # Apply time multiplier for groove feel (separate from detection)
-        time_mult = TIME_MULTIPLIERS.get(CURRENT_TIME, 1.0)
-        groove_tempo = detected_tempo * time_mult
-        beat_freq = groove_tempo / 60.0
-
         print(f"[DANCE] Detected tempo: {detected_tempo:.1f} BPM")
-        print(f"[DANCE] Groove tempo: {groove_tempo:.1f} BPM ({CURRENT_TIME} time)")
+
+        # Check if config has time switches
+        if config and 'time_switches' in config:
+            print(f"[DANCE] Time switches loaded: {len(config['time_switches'])} switch(es)")
+            for sw in config['time_switches']:
+                print(f"[DANCE]   At {sw['at']}s -> {sw['time']} time")
+        else:
+            time_mult = TIME_MULTIPLIERS.get(CURRENT_TIME, 1.0)
+            print(f"[DANCE] Groove tempo: {detected_tempo * time_mult:.1f} BPM ({CURRENT_TIME} time)")
 
         start_time = time.time()
         frame_count = 0
@@ -657,6 +687,10 @@ def dance_loop(mini, analysis, stop_event, error_event):
 
         while not stop_event.is_set():
             t = time.time() - start_time
+
+            # Get time multiplier (may change during song if config has time_switches)
+            time_mult = get_time_multiplier_at(t, config)
+            beat_freq = (detected_tempo * time_mult) / 60.0
 
             bass_val = get_value_at_time(spec_times, bass, t)
             mid_val = get_value_at_time(spec_times, mids, t)
@@ -736,13 +770,13 @@ def prepare_track(url, volume_level='loud'):
     return output_file, analysis
 
 
-def play_track(mini, output_file, analysis, stop_event, error_event):
+def play_track(mini, output_file, analysis, stop_event, error_event, config=None):
     """Play a track with dancing."""
     duration = analysis['duration']
 
     dance_thread = threading.Thread(
         target=dance_loop,
-        args=(mini, analysis, stop_event, error_event),
+        args=(mini, analysis, stop_event, error_event, config),
         daemon=True
     )
 
@@ -1008,7 +1042,7 @@ def run_choreographed_mode(volume_level='loud'):
 
 def main():
     """Main entry point."""
-    global CURRENT_VOLUME, CURRENT_TIME
+    global CURRENT_VOLUME, CURRENT_TIME, CURRENT_CONFIG
 
     parser = argparse.ArgumentParser(description="Reachy YouTube Dance")
     parser.add_argument('url', nargs='?', help='YouTube URL to play')
@@ -1016,9 +1050,28 @@ def main():
                         default='loud', help='Volume level (default: loud)')
     parser.add_argument('--time', '-t', choices=['normal', 'half', 'double', 'quarter'],
                         default='normal', help='Groove timing relative to detected BPM (default: normal)')
+    parser.add_argument('--config', '-c', type=str,
+                        help='Path to JSON config file for song-specific settings')
     parser.add_argument('--choreo', action='store_true',
                         help="Run choreographed dance (I Wanna Be Like You)")
     args = parser.parse_args()
+
+    # Load config if provided
+    config = None
+    if args.config:
+        try:
+            config = load_config(args.config)
+            CURRENT_CONFIG = config
+            print(f"[CONFIG] Loaded: {config.get('title', args.config)}")
+            # Use URL from config if not provided on command line
+            if not args.url and 'url' in config:
+                args.url = config['url']
+            # Use default_time from config if not overridden
+            if 'default_time' in config and args.time == 'normal':
+                args.time = config['default_time']
+        except Exception as e:
+            print(f"[ERROR] Failed to load config: {e}")
+            return 1
 
     if args.choreo:
         return run_choreographed_mode(args.volume)
@@ -1029,6 +1082,8 @@ def main():
     print("[START] Reachy YouTube Dance - Interactive Mode")
     print(f"[START] Volume: {CURRENT_VOLUME}")
     print(f"[START] Time: {CURRENT_TIME}")
+    if config:
+        print(f"[START] Config: {config.get('title', 'loaded')}")
     print()
 
     if not check_yt_dlp_installed():
@@ -1081,7 +1136,7 @@ def main():
                 stop_event = threading.Event()
                 error_event = threading.Event()
 
-                play_track(mini, output_file, analysis, stop_event, error_event)
+                play_track(mini, output_file, analysis, stop_event, error_event, config)
 
                 print()
                 print("=" * 60)

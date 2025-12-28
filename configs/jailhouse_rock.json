@@ -1,0 +1,8 @@
+{
+  "title": "Jailhouse Rock",
+  "url": "https://www.youtube.com/watch?v=PpsUOOfb-vE",
+  "default_time": "normal",
+  "time_switches": [
+    {"at": 18.0, "time": "double", "_comment": "Electric guitar riff starts"}
+  ]
+}

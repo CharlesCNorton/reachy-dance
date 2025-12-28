@@ -1,9 +1,30 @@
-# Ignore everything
-*
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+*.egg-info/
+dist/
+build/
 
-# Except these files
-!.gitignore
-!README.md
-!LICENSE
-!reachy_youtube_dance.py
-!start_daemon.py
+# Audio files (downloaded)
+*.wav
+*.mp3
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dev files (keep out of repo)
+choreographed_dance.py
+choreographed_dance_rococo.py
+choreography.json
+choreography_design.py
+lyrics_correction.py
+rococo_choreography.py
+transcription.json
