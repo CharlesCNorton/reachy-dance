@@ -37,6 +37,20 @@ VOLUME_LEVELS = {
     'quiet': -6,
 }
 
+# TIME_MULTIPLIERS: Adjusts the groove/movement timing relative to detected BPM.
+# This is NOT the same as librosa's tempo detection - librosa detects the song's
+# actual BPM, but many genres (blues, ballads, slow rock) have a "felt" pulse
+# that differs from the notated tempo. Half-time means movements follow a pulse
+# at half the detected BPM, matching how humans naturally sway to slower grooves.
+TIME_MULTIPLIERS = {
+    'normal': 1.0,    # Use detected BPM as-is
+    'half': 0.5,      # Half-time feel (blues, ballads, slow rock)
+    'double': 2.0,    # Double-time feel (punk, fast songs feeling sluggish)
+    'quarter': 0.25,  # Quarter-time (very slow ambient grooves)
+}
+
+CURRENT_TIME = 'normal'
+
 CURRENT_VOLUME = 'loud'
 
 print("=" * 60)
@@ -625,10 +639,17 @@ def dance_loop(mini, analysis, stop_event, error_event):
     try:
         bass, mids, highs = analysis['bass'], analysis['mids'], analysis['highs']
         spec_times = analysis['spec_times']
-        tempo = analysis['tempo']
-        beat_freq = tempo / 60.0
 
-        print(f"[DANCE] Tempo: {tempo:.1f} BPM")
+        # Detected tempo from librosa (the song's actual BPM)
+        detected_tempo = analysis['tempo']
+
+        # Apply time multiplier for groove feel (separate from detection)
+        time_mult = TIME_MULTIPLIERS.get(CURRENT_TIME, 1.0)
+        groove_tempo = detected_tempo * time_mult
+        beat_freq = groove_tempo / 60.0
+
+        print(f"[DANCE] Detected tempo: {detected_tempo:.1f} BPM")
+        print(f"[DANCE] Groove tempo: {groove_tempo:.1f} BPM ({CURRENT_TIME} time)")
 
         start_time = time.time()
         frame_count = 0
@@ -987,12 +1008,14 @@ def run_choreographed_mode(volume_level='loud'):
 
 def main():
     """Main entry point."""
-    global CURRENT_VOLUME
+    global CURRENT_VOLUME, CURRENT_TIME
 
     parser = argparse.ArgumentParser(description="Reachy YouTube Dance")
     parser.add_argument('url', nargs='?', help='YouTube URL to play')
     parser.add_argument('--volume', '-v', choices=['quiet', 'normal', 'loud', 'max'],
                         default='loud', help='Volume level (default: loud)')
+    parser.add_argument('--time', '-t', choices=['normal', 'half', 'double', 'quarter'],
+                        default='normal', help='Groove timing relative to detected BPM (default: normal)')
     parser.add_argument('--choreo', action='store_true',
                         help="Run choreographed dance (I Wanna Be Like You)")
     args = parser.parse_args()
@@ -1001,9 +1024,11 @@ def main():
         return run_choreographed_mode(args.volume)
 
     CURRENT_VOLUME = args.volume
+    CURRENT_TIME = args.time
 
     print("[START] Reachy YouTube Dance - Interactive Mode")
     print(f"[START] Volume: {CURRENT_VOLUME}")
+    print(f"[START] Time: {CURRENT_TIME}")
     print()
 
     if not check_yt_dlp_installed():
