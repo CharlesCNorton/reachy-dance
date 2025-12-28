@@ -1,0 +1,532 @@
+{
+  "title": "Colors of the Wind - Pocahontas",
+  "url": "https://www.youtube.com/watch?v=hcmpj5HPue0",
+  "default_time": "quarter",
+  "disable_beat_dance": true,
+  "movements": {
+    "rise": {
+      "phases": [
+        {"pose": [-5, 0, 0, 0.3, 0.3, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "defiant": {
+      "phases": [
+        {"pose": [12, 0, 0, 0.7, 0.7, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.6, 0.6, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "sweep": {
+      "phases": [
+        {"pose": [5, -12, 0, 0.5, 0.5, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [5, 12, 0, 0.5, 0.5, 0], "duration": 0.35, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "question": {
+      "phases": [
+        {"pose": [8, 8, 0, 0.55, 0.55, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [6, 5, 0, 0.5, 0.5, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "shake": {
+      "phases": [
+        {"pose": [5, -8, 0, 0.5, 0.5, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [5, 8, 0, 0.5, 0.5, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.5, 0.5, 0], "duration": 0.2, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "earth": {
+      "phases": [
+        {"pose": [-8, 0, 0, 0.4, 0.4, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [-5, 0, 0, 0.45, 0.45, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    },
+    "life": {
+      "phases": [
+        {"pose": [10, 0, 0, 0.7, 0.7, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "spirit": {
+      "phases": [
+        {"pose": [12, 0, 0, 0.8, 0.8, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.7, 0.7, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "learn": {
+      "phases": [
+        {"pose": [10, 0, 0, 0.7, 0.7, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [14, 0, 0, 0.85, 0.85, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "wolf": {
+      "phases": [
+        {"pose": [18, 0, 0, 0.9, 0.9, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.8, 0.8, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "moon": {
+      "phases": [
+        {"pose": [18, 0, 0, 0.9, 0.9, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [12, 0, 0, 0.7, 0.7, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "sing": {
+      "phases": [
+        {"pose": [15, 0, 0, 0.85, 0.85, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [12, 0, 0, 0.75, 0.75, 0], "duration": 0.35, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "mountain": {
+      "phases": [
+        {"pose": [18, 0, 0, 0.95, 0.95, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.85, 0.85, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "paint": {
+      "phases": [
+        {"pose": [5, -10, 0, 0.5, 0.5, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [8, 10, 0, 0.55, 0.55, 0], "duration": 0.35, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "colors": {
+      "phases": [
+        {"pose": [12, 5, 0, 0.8, 0.8, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [15, 8, 0, 0.9, 0.9, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "wind": {
+      "phases": [
+        {"pose": [10, -8, 0, 0.6, 0.6, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [10, 8, 0, 0.6, 0.6, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "wind_long": {
+      "phases": [
+        {"pose": [12, -10, 0, 0.7, 0.7, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.8, 0.8, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [12, 10, 0, 0.7, 0.7, 0], "duration": 0.6, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "river": {
+      "phases": [
+        {"pose": [3, -12, 0, 0.5, 0.5, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [3, 12, 0, 0.5, 0.5, 0], "duration": 0.35, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "circle": {
+      "phases": [
+        {"pose": [5, -10, 0, 0.5, 0.5, 0], "duration": 0.3, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [5, 10, 0, 0.5, 0.5, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "tree": {
+      "phases": [
+        {"pose": [15, 0, 0, 0.8, 0.8, 0], "duration": 0.5, "ease": "smooth"},
+        {"pose": [12, 0, 0, 0.7, 0.7, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "finale": {
+      "phases": [
+        {"pose": [12, -12, 0, 0.7, 0.7, 0], "duration": 0.6, "ease": "smooth"},
+        {"pose": [18, 0, 0, 0.95, 0.95, 0], "duration": 0.6, "ease": "smooth"},
+        {"pose": [15, 12, 0, 0.9, 0.9, 0], "duration": 0.6, "ease": "smooth"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.8, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "nod": {
+      "phases": [
+        {"pose": [5, 0, 0, 0.55, 0.55, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [-2, 0, 0, 0.45, 0.45, 0], "duration": 0.2, "ease": "smooth"},
+        {"pose": [3, 0, 0, 0.5, 0.5, 0], "duration": 0.2, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    },
+    "tilt_left": {
+      "phases": [
+        {"pose": [5, -10, 0, 0.55, 0.55, 0], "duration": 0.3, "ease": "smooth"},
+        {"pose": [3, -6, 0, 0.5, 0.5, 0], "duration": 0.25, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    },
+    "tilt_right": {
+      "phases": [
+        {"pose": [5, 10, 0, 0.55, 0.55, 0], "duration": 0.3, "ease": "smooth"},
+        {"pose": [3, 6, 0, 0.5, 0.5, 0], "duration": 0.25, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    },
+    "look_up": {
+      "phases": [
+        {"pose": [12, 0, 0, 0.7, 0.7, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "look_down": {
+      "phases": [
+        {"pose": [-8, 0, 0, 0.4, 0.4, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [-5, 0, 0, 0.45, 0.45, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    },
+    "gentle": {
+      "phases": [
+        {"pose": [6, 5, 0, 0.55, 0.55, 0], "duration": 0.35, "ease": "smooth"},
+        {"pose": [4, 3, 0, 0.5, 0.5, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    }
+  },
+  "triggers": [
+    {"at": 5.92, "move": "rise", "_lyric": "You"},
+    {"at": 6.76, "move": "defiant", "_lyric": "think"},
+    {"at": 7.16, "move": "nod", "_lyric": "I'm"},
+    {"at": 7.52, "move": "gentle", "_lyric": "an"},
+    {"at": 7.74, "move": "defiant", "_lyric": "ignorant"},
+    {"at": 8.26, "move": "defiant", "_lyric": "savage"},
+    {"at": 8.90, "move": "gentle", "_lyric": "And"},
+    {"at": 9.84, "move": "sweep", "_lyric": "you've"},
+    {"at": 10.02, "move": "nod", "_lyric": "been"},
+    {"at": 10.38, "move": "gentle", "_lyric": "so"},
+    {"at": 10.64, "move": "sweep", "_lyric": "many"},
+    {"at": 10.98, "move": "sweep", "_lyric": "places"},
+
+    {"at": 11.66, "move": "nod", "_lyric": "I"},
+    {"at": 12.06, "move": "question", "_lyric": "guess"},
+    {"at": 12.42, "move": "nod", "_lyric": "it"},
+    {"at": 12.74, "move": "gentle", "_lyric": "must"},
+    {"at": 13.00, "move": "nod", "_lyric": "be"},
+    {"at": 13.38, "move": "gentle", "_lyric": "so"},
+    {"at": 14.10, "move": "tilt_left", "_lyric": "But"},
+    {"at": 14.68, "move": "gentle", "_lyric": "still"},
+    {"at": 15.28, "move": "nod", "_lyric": "I"},
+    {"at": 15.60, "move": "shake", "_lyric": "cannot"},
+    {"at": 15.96, "move": "question", "_lyric": "see"},
+
+    {"at": 16.82, "move": "tilt_left", "_lyric": "If"},
+    {"at": 17.40, "move": "nod", "_lyric": "the"},
+    {"at": 17.82, "move": "defiant", "_lyric": "savage"},
+    {"at": 18.28, "move": "question", "_lyric": "one"},
+    {"at": 18.78, "move": "nod", "_lyric": "is"},
+    {"at": 19.28, "move": "gentle", "_lyric": "me"},
+    {"at": 20.30, "move": "question", "_lyric": "How"},
+    {"at": 20.98, "move": "nod", "_lyric": "can"},
+    {"at": 21.42, "move": "gentle", "_lyric": "there"},
+    {"at": 21.70, "move": "nod", "_lyric": "be"},
+    {"at": 21.94, "move": "gentle", "_lyric": "so"},
+    {"at": 22.40, "move": "question", "_lyric": "much"},
+
+    {"at": 22.72, "move": "tilt_left", "_lyric": "That"},
+    {"at": 23.08, "move": "defiant", "_lyric": "you"},
+    {"at": 23.52, "move": "shake", "_lyric": "don't"},
+    {"at": 24.04, "move": "shake", "_lyric": "know"},
+    {"at": 26.90, "move": "defiant", "_lyric": "You"},
+    {"at": 27.76, "move": "shake", "_lyric": "don't"},
+    {"at": 29.62, "move": "shake", "_lyric": "know (held)"},
+
+    {"at": 39.48, "move": "rise", "_lyric": "You - VERSE 2"},
+    {"at": 40.00, "move": "defiant", "_lyric": "think"},
+    {"at": 40.54, "move": "nod", "_lyric": "you"},
+    {"at": 40.92, "move": "defiant", "_lyric": "own"},
+    {"at": 41.24, "move": "sweep", "_lyric": "whatever"},
+    {"at": 41.88, "move": "sweep", "_lyric": "land"},
+    {"at": 42.48, "move": "nod", "_lyric": "you"},
+    {"at": 42.80, "move": "sweep", "_lyric": "land"},
+    {"at": 43.20, "move": "gentle", "_lyric": "on"},
+    {"at": 44.10, "move": "nod", "_lyric": "The"},
+    {"at": 44.76, "move": "earth", "_lyric": "earth"},
+    {"at": 45.18, "move": "nod", "_lyric": "is"},
+    {"at": 45.52, "move": "gentle", "_lyric": "just"},
+    {"at": 45.92, "move": "nod", "_lyric": "a"},
+    {"at": 46.22, "move": "look_down", "_lyric": "dead"},
+    {"at": 46.54, "move": "look_down", "_lyric": "thing"},
+    {"at": 46.98, "move": "nod", "_lyric": "you"},
+    {"at": 47.16, "move": "gentle", "_lyric": "can"},
+    {"at": 47.70, "move": "defiant", "_lyric": "claim"},
+
+    {"at": 48.64, "move": "tilt_left", "_lyric": "But"},
+    {"at": 49.40, "move": "rise", "_lyric": "I"},
+    {"at": 49.90, "move": "learn", "_lyric": "know"},
+    {"at": 50.12, "move": "sweep", "_lyric": "every"},
+    {"at": 50.62, "move": "earth", "_lyric": "rock"},
+    {"at": 51.02, "move": "gentle", "_lyric": "and"},
+    {"at": 51.42, "move": "tree", "_lyric": "tree"},
+    {"at": 51.70, "move": "gentle", "_lyric": "and"},
+    {"at": 52.16, "move": "life", "_lyric": "creature"},
+    {"at": 52.82, "move": "gentle", "_lyric": "Has"},
+    {"at": 53.76, "move": "nod", "_lyric": "a"},
+    {"at": 54.04, "move": "life", "_lyric": "life"},
+    {"at": 54.92, "move": "gentle", "_lyric": "has a"},
+    {"at": 55.32, "move": "spirit", "_lyric": "spirit"},
+    {"at": 56.16, "move": "gentle", "_lyric": "has an"},
+    {"at": 56.64, "move": "spirit", "_lyric": "air"},
+
+    {"at": 57.84, "move": "rise", "_lyric": "You"},
+    {"at": 58.56, "move": "defiant", "_lyric": "think"},
+    {"at": 58.86, "move": "nod", "_lyric": "the"},
+    {"at": 59.24, "move": "gentle", "_lyric": "only"},
+    {"at": 59.68, "move": "sweep", "_lyric": "people"},
+    {"at": 60.44, "move": "question", "_lyric": "who"},
+    {"at": 60.76, "move": "nod", "_lyric": "are"},
+    {"at": 61.06, "move": "sweep", "_lyric": "people"},
+    {"at": 61.94, "move": "gentle", "_lyric": "Are"},
+    {"at": 62.86, "move": "nod", "_lyric": "the"},
+    {"at": 63.16, "move": "sweep", "_lyric": "people"},
+    {"at": 63.72, "move": "question", "_lyric": "who"},
+    {"at": 64.26, "move": "tilt_left", "_lyric": "look"},
+    {"at": 64.48, "move": "gentle", "_lyric": "and"},
+    {"at": 64.92, "move": "tilt_right", "_lyric": "think"},
+    {"at": 65.22, "move": "gentle", "_lyric": "like"},
+    {"at": 65.64, "move": "defiant", "_lyric": "you"},
+
+    {"at": 66.86, "move": "tilt_left", "_lyric": "But - VERSE 3"},
+    {"at": 67.52, "move": "gentle", "_lyric": "if"},
+    {"at": 67.96, "move": "nod", "_lyric": "you"},
+    {"at": 68.32, "move": "sweep", "_lyric": "walk"},
+    {"at": 68.52, "move": "nod", "_lyric": "the"},
+    {"at": 68.86, "move": "sweep", "_lyric": "footsteps"},
+    {"at": 69.42, "move": "gentle", "_lyric": "of"},
+    {"at": 69.76, "move": "nod", "_lyric": "a"},
+    {"at": 70.04, "move": "question", "_lyric": "stranger"},
+    {"at": 70.84, "move": "gentle", "_lyric": "You'll"},
+    {"at": 71.90, "move": "learn", "_lyric": "learn"},
+    {"at": 72.14, "move": "question", "_lyric": "things"},
+    {"at": 72.68, "move": "nod", "_lyric": "you"},
+    {"at": 73.08, "move": "shake", "_lyric": "never"},
+    {"at": 73.44, "move": "learn", "_lyric": "knew"},
+    {"at": 73.76, "move": "nod", "_lyric": "you"},
+    {"at": 74.26, "move": "shake", "_lyric": "never"},
+    {"at": 74.68, "move": "learn", "_lyric": "knew"},
+
+    {"at": 75.74, "move": "question", "_lyric": "Have - CHORUS"},
+    {"at": 76.40, "move": "nod", "_lyric": "you"},
+    {"at": 76.80, "move": "gentle", "_lyric": "ever"},
+    {"at": 77.34, "move": "question", "_lyric": "heard"},
+    {"at": 77.68, "move": "nod", "_lyric": "the"},
+    {"at": 77.98, "move": "wolf", "_lyric": "wolf"},
+    {"at": 78.30, "move": "look_up", "_lyric": "cry"},
+    {"at": 78.84, "move": "gentle", "_lyric": "to"},
+    {"at": 79.06, "move": "nod", "_lyric": "the"},
+    {"at": 79.26, "move": "gentle", "_lyric": "blue"},
+    {"at": 79.70, "move": "gentle", "_lyric": "corn"},
+    {"at": 80.22, "move": "moon", "_lyric": "moon"},
+    {"at": 80.76, "move": "gentle", "_lyric": "Or"},
+    {"at": 81.32, "move": "question", "_lyric": "asked"},
+    {"at": 81.72, "move": "nod", "_lyric": "the"},
+    {"at": 81.98, "move": "gentle", "_lyric": "grinning"},
+    {"at": 82.32, "move": "tilt_right", "_lyric": "bobcat"},
+    {"at": 82.94, "move": "question", "_lyric": "why"},
+    {"at": 83.52, "move": "nod", "_lyric": "he"},
+    {"at": 83.98, "move": "tilt_right", "_lyric": "grinned"},
+
+    {"at": 85.44, "move": "question", "_lyric": "Can"},
+    {"at": 85.72, "move": "nod", "_lyric": "you"},
+    {"at": 86.06, "move": "sing", "_lyric": "sing"},
+    {"at": 86.44, "move": "gentle", "_lyric": "with"},
+    {"at": 86.80, "move": "sweep", "_lyric": "all"},
+    {"at": 87.12, "move": "nod", "_lyric": "the"},
+    {"at": 87.36, "move": "sweep", "_lyric": "voices"},
+    {"at": 88.12, "move": "gentle", "_lyric": "of"},
+    {"at": 88.38, "move": "nod", "_lyric": "the"},
+    {"at": 88.64, "move": "mountain", "_lyric": "mountain"},
+    {"at": 90.28, "move": "question", "_lyric": "Can"},
+    {"at": 90.60, "move": "nod", "_lyric": "you"},
+    {"at": 90.98, "move": "paint", "_lyric": "paint"},
+    {"at": 91.38, "move": "gentle", "_lyric": "with"},
+    {"at": 91.72, "move": "sweep", "_lyric": "all"},
+    {"at": 92.02, "move": "nod", "_lyric": "the"},
+    {"at": 92.36, "move": "colors", "_lyric": "colors"},
+    {"at": 93.04, "move": "gentle", "_lyric": "of"},
+    {"at": 93.38, "move": "nod", "_lyric": "the"},
+    {"at": 93.70, "move": "wind", "_lyric": "wind"},
+
+    {"at": 95.12, "move": "question", "_lyric": "Can (repeat)"},
+    {"at": 95.48, "move": "nod", "_lyric": "you"},
+    {"at": 95.84, "move": "paint", "_lyric": "paint"},
+    {"at": 96.36, "move": "gentle", "_lyric": "with"},
+    {"at": 96.76, "move": "sweep", "_lyric": "all"},
+    {"at": 97.24, "move": "nod", "_lyric": "the"},
+    {"at": 97.70, "move": "colors", "_lyric": "colors"},
+    {"at": 98.44, "move": "gentle", "_lyric": "of"},
+    {"at": 99.52, "move": "nod", "_lyric": "the"},
+    {"at": 100.34, "move": "wind_long", "_lyric": "wind (held)"},
+
+    {"at": 108.52, "move": "rise", "_lyric": "Come - KEY CHANGE"},
+    {"at": 109.40, "move": "sweep", "_lyric": "run"},
+    {"at": 109.72, "move": "nod", "_lyric": "the"},
+    {"at": 110.06, "move": "gentle", "_lyric": "hidden"},
+    {"at": 110.32, "move": "tree", "_lyric": "pine"},
+    {"at": 110.82, "move": "sweep", "_lyric": "trails"},
+    {"at": 111.20, "move": "gentle", "_lyric": "of"},
+    {"at": 111.38, "move": "nod", "_lyric": "the"},
+    {"at": 111.70, "move": "tree", "_lyric": "forest"},
+    {"at": 112.38, "move": "rise", "_lyric": "Come"},
+    {"at": 113.58, "move": "gentle", "_lyric": "taste"},
+    {"at": 114.00, "move": "nod", "_lyric": "the"},
+    {"at": 114.34, "move": "look_up", "_lyric": "sun's"},
+    {"at": 114.76, "move": "gentle", "_lyric": "sweet"},
+    {"at": 114.98, "move": "gentle", "_lyric": "berries"},
+    {"at": 115.50, "move": "gentle", "_lyric": "of"},
+    {"at": 115.78, "move": "nod", "_lyric": "the"},
+    {"at": 116.14, "move": "earth", "_lyric": "earth"},
+
+    {"at": 117.18, "move": "rise", "_lyric": "Come"},
+    {"at": 117.92, "move": "sweep", "_lyric": "roll"},
+    {"at": 118.40, "move": "gentle", "_lyric": "in"},
+    {"at": 118.62, "move": "sweep", "_lyric": "all"},
+    {"at": 118.86, "move": "nod", "_lyric": "the"},
+    {"at": 119.08, "move": "sweep", "_lyric": "riches"},
+    {"at": 119.50, "move": "sweep", "_lyric": "all"},
+    {"at": 119.94, "move": "sweep", "_lyric": "around"},
+    {"at": 120.52, "move": "nod", "_lyric": "you"},
+    {"at": 121.20, "move": "gentle", "_lyric": "And"},
+    {"at": 121.66, "move": "gentle", "_lyric": "for"},
+    {"at": 122.08, "move": "gentle", "_lyric": "once"},
+    {"at": 122.52, "move": "shake", "_lyric": "never"},
+    {"at": 123.10, "move": "question", "_lyric": "wonder"},
+    {"at": 123.66, "move": "gentle", "_lyric": "what"},
+    {"at": 123.94, "move": "nod", "_lyric": "they're"},
+    {"at": 124.60, "move": "life", "_lyric": "worth"},
+
+    {"at": 125.42, "move": "nod", "_lyric": "The - VERSE 5"},
+    {"at": 126.32, "move": "river", "_lyric": "rainstorm"},
+    {"at": 127.06, "move": "gentle", "_lyric": "and"},
+    {"at": 127.28, "move": "nod", "_lyric": "the"},
+    {"at": 127.52, "move": "river", "_lyric": "river"},
+    {"at": 128.02, "move": "gentle", "_lyric": "are"},
+    {"at": 128.28, "move": "nod", "_lyric": "my"},
+    {"at": 128.86, "move": "spirit", "_lyric": "brothers"},
+    {"at": 129.70, "move": "nod", "_lyric": "The"},
+    {"at": 130.68, "move": "life", "_lyric": "heron"},
+    {"at": 131.26, "move": "gentle", "_lyric": "and"},
+    {"at": 131.54, "move": "nod", "_lyric": "the"},
+    {"at": 131.90, "move": "life", "_lyric": "otter"},
+    {"at": 132.26, "move": "gentle", "_lyric": "are"},
+    {"at": 132.74, "move": "nod", "_lyric": "my"},
+    {"at": 133.22, "move": "spirit", "_lyric": "friends"},
+
+    {"at": 134.46, "move": "gentle", "_lyric": "And"},
+    {"at": 134.92, "move": "nod", "_lyric": "we"},
+    {"at": 135.42, "move": "gentle", "_lyric": "are"},
+    {"at": 135.78, "move": "sweep", "_lyric": "all"},
+    {"at": 136.10, "move": "circle", "_lyric": "connected"},
+    {"at": 136.70, "move": "gentle", "_lyric": "to"},
+    {"at": 137.06, "move": "sweep", "_lyric": "each"},
+    {"at": 137.58, "move": "sweep", "_lyric": "other"},
+    {"at": 138.38, "move": "gentle", "_lyric": "In"},
+    {"at": 139.16, "move": "nod", "_lyric": "a"},
+    {"at": 139.50, "move": "circle", "_lyric": "circle"},
+    {"at": 140.18, "move": "gentle", "_lyric": "in"},
+    {"at": 140.42, "move": "nod", "_lyric": "a"},
+    {"at": 140.66, "move": "circle", "_lyric": "hoop"},
+    {"at": 140.86, "move": "gentle", "_lyric": "that"},
+    {"at": 141.32, "move": "shake", "_lyric": "never"},
+    {"at": 141.96, "move": "spirit", "_lyric": "ends"},
+
+    {"at": 143.56, "move": "question", "_lyric": "How - BRIDGE"},
+    {"at": 145.10, "move": "look_up", "_lyric": "high"},
+    {"at": 145.88, "move": "gentle", "_lyric": "does"},
+    {"at": 146.10, "move": "nod", "_lyric": "the"},
+    {"at": 146.34, "move": "tree", "_lyric": "sycamore"},
+    {"at": 147.18, "move": "tree", "_lyric": "grow"},
+    {"at": 148.30, "move": "gentle", "_lyric": "If"},
+    {"at": 148.46, "move": "nod", "_lyric": "you"},
+    {"at": 148.84, "move": "look_down", "_lyric": "cut"},
+    {"at": 149.10, "move": "gentle", "_lyric": "it"},
+    {"at": 149.44, "move": "look_down", "_lyric": "down"},
+    {"at": 149.98, "move": "gentle", "_lyric": "then"},
+    {"at": 150.56, "move": "nod", "_lyric": "you'll"},
+    {"at": 151.16, "move": "shake", "_lyric": "never"},
+    {"at": 152.12, "move": "learn", "_lyric": "know"},
+
+    {"at": 153.80, "move": "gentle", "_lyric": "And - CHORUS 2"},
+    {"at": 155.02, "move": "nod", "_lyric": "you'll"},
+    {"at": 155.68, "move": "shake", "_lyric": "never"},
+    {"at": 156.30, "move": "question", "_lyric": "hear"},
+    {"at": 156.72, "move": "nod", "_lyric": "the"},
+    {"at": 157.02, "move": "wolf", "_lyric": "wolf"},
+    {"at": 157.26, "move": "look_up", "_lyric": "cry"},
+    {"at": 157.84, "move": "gentle", "_lyric": "to"},
+    {"at": 158.04, "move": "nod", "_lyric": "the"},
+    {"at": 158.42, "move": "gentle", "_lyric": "blue"},
+    {"at": 158.66, "move": "gentle", "_lyric": "corn"},
+    {"at": 159.22, "move": "moon", "_lyric": "moon"},
+    {"at": 159.98, "move": "gentle", "_lyric": "Or"},
+    {"at": 160.52, "move": "question", "_lyric": "whether"},
+    {"at": 160.86, "move": "nod", "_lyric": "we"},
+    {"at": 161.30, "move": "gentle", "_lyric": "are"},
+    {"at": 161.60, "move": "sweep", "_lyric": "white"},
+    {"at": 161.98, "move": "gentle", "_lyric": "or"},
+    {"at": 162.40, "move": "sweep", "_lyric": "copper"},
+    {"at": 162.84, "move": "sweep", "_lyric": "skinned"},
+
+    {"at": 163.46, "move": "rise", "_lyric": "We"},
+    {"at": 164.64, "move": "life", "_lyric": "need"},
+    {"at": 164.98, "move": "gentle", "_lyric": "to"},
+    {"at": 165.38, "move": "sing", "_lyric": "sing"},
+    {"at": 165.72, "move": "gentle", "_lyric": "with"},
+    {"at": 166.08, "move": "sweep", "_lyric": "all"},
+    {"at": 166.38, "move": "nod", "_lyric": "the"},
+    {"at": 166.64, "move": "sweep", "_lyric": "voices"},
+    {"at": 167.28, "move": "gentle", "_lyric": "of"},
+    {"at": 167.66, "move": "nod", "_lyric": "the"},
+    {"at": 167.98, "move": "mountain", "_lyric": "mountain"},
+    {"at": 168.94, "move": "life", "_lyric": "Need"},
+    {"at": 169.68, "move": "gentle", "_lyric": "to"},
+    {"at": 170.18, "move": "paint", "_lyric": "paint"},
+    {"at": 170.52, "move": "gentle", "_lyric": "with"},
+    {"at": 170.94, "move": "sweep", "_lyric": "all"},
+    {"at": 171.20, "move": "nod", "_lyric": "the"},
+    {"at": 171.58, "move": "colors", "_lyric": "colors"},
+    {"at": 172.24, "move": "gentle", "_lyric": "of"},
+    {"at": 172.48, "move": "nod", "_lyric": "the"},
+    {"at": 172.86, "move": "wind", "_lyric": "wind"},
+
+    {"at": 173.46, "move": "rise", "_lyric": "You - OUTRO"},
+    {"at": 174.84, "move": "gentle", "_lyric": "can"},
+    {"at": 175.38, "move": "defiant", "_lyric": "own"},
+    {"at": 175.74, "move": "nod", "_lyric": "the"},
+    {"at": 176.08, "move": "earth", "_lyric": "earth"},
+    {"at": 176.38, "move": "gentle", "_lyric": "and"},
+    {"at": 176.80, "move": "gentle", "_lyric": "still"},
+    {"at": 177.24, "move": "sweep", "_lyric": "all"},
+    {"at": 177.72, "move": "nod", "_lyric": "you'll"},
+    {"at": 178.36, "move": "defiant", "_lyric": "own"},
+    {"at": 178.64, "move": "gentle", "_lyric": "is"},
+    {"at": 179.14, "move": "earth", "_lyric": "earth"},
+    {"at": 179.72, "move": "question", "_lyric": "Until"},
+    {"at": 180.82, "move": "nod", "_lyric": "you"},
+    {"at": 181.70, "move": "gentle", "_lyric": "can"},
+    {"at": 182.28, "move": "paint", "_lyric": "paint"},
+    {"at": 183.30, "move": "gentle", "_lyric": "with"},
+    {"at": 184.28, "move": "sweep", "_lyric": "all"},
+    {"at": 184.80, "move": "nod", "_lyric": "the"},
+    {"at": 185.36, "move": "colors", "_lyric": "colors"},
+    {"at": 186.58, "move": "gentle", "_lyric": "of"},
+    {"at": 188.60, "move": "nod", "_lyric": "the"},
+    {"at": 190.98, "move": "finale", "_lyric": "WIND (finale)"}
+  ]
+}

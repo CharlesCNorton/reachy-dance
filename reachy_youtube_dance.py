@@ -234,228 +234,80 @@ class Sequence:
         return final.lerp(REST_POSE, 1 - decay), self.blend_weight * decay
 
 
-# Movement sequence factories
-def seq_king() -> Sequence:
-    """King of the swingers - regal head raise + slow turn + crown antennas."""
-    return Sequence([
-        Phase(Pose(-5, 0, 0, 0.2, 0.2, 0), 0.1, "smooth"),
-        Phase(Pose(15, 0, 0, 0.5, 0.5, 0), 0.2, "ease_out"),
-        Phase(Pose(18, 20, 3, 0.9, 0.95, 5), 0.3, "smooth"),
-        Phase(Pose(15, 15, 0, 1.0, 1.0, 3), 0.3, "smooth"),
-        Phase(Pose(8, 5, 0, 0.7, 0.7, 0), 0.2, "ease_in"),
-    ], 0.95)
-
-def seq_fire() -> Sequence:
-    """Man's red fire - flicker -> FLARE -> hold."""
-    return Sequence([
-        Phase(Pose(-3, 0, 0, 0.2, 0.3, 0), 0.08, "snap"),
-        Phase(Pose(5, 0, 0, 0.6, 0.4, 0), 0.06, "snap"),
-        Phase(Pose(3, 0, 0, 0.4, 0.7, 0), 0.06, "snap"),
-        Phase(Pose(6, 0, 0, 0.8, 0.5, 0), 0.06, "snap"),
-        Phase(Pose(15, 0, 0, 1.0, 1.0, 0), 0.12, "snap"),
-        Phase(Pose(12, 0, 2, 1.0, 1.0, 0), 0.25, "smooth"),
-        Phase(Pose(8, 0, 0, 0.8, 0.8, 0), 0.15, "ease_in"),
-    ], 0.98)
-
-def seq_like_left() -> Sequence:
-    """Like you - mimicking gesture, left variation."""
-    return Sequence([
-        Phase(Pose(0, -5, -3, 0.4, 0.5, -2), 0.08, "smooth"),
-        Phase(Pose(5, -15, 10, 0.8, 0.4, -5), 0.15, "ease_out"),
-        Phase(Pose(10, -10, 8, 0.9, 0.5, -3), 0.12, "smooth"),
-        Phase(Pose(3, -5, 3, 0.6, 0.5, -1), 0.1, "ease_in"),
-    ], 0.85)
-
-def seq_like_right() -> Sequence:
-    """Like you - mimicking gesture, right variation."""
-    return Sequence([
-        Phase(Pose(0, 5, 3, 0.5, 0.4, 2), 0.08, "smooth"),
-        Phase(Pose(5, 15, -10, 0.4, 0.8, 5), 0.15, "ease_out"),
-        Phase(Pose(10, 10, -8, 0.5, 0.9, 3), 0.12, "smooth"),
-        Phase(Pose(3, 5, -3, 0.5, 0.6, 1), 0.1, "ease_in"),
-    ], 0.85)
-
-def seq_walk() -> Sequence:
-    """Walk like you - exaggerated strut bobbing."""
-    return Sequence([
-        Phase(Pose(-10, 8, 5, 0.3, 0.5, 4), 0.1, "snap"),
-        Phase(Pose(5, -5, -3, 0.6, 0.4, -2), 0.1, "ease_out"),
-        Phase(Pose(3, 10, 6, 0.5, 0.6, 3), 0.1, "smooth"),
-    ], 0.75)
-
-def seq_talk() -> Sequence:
-    """Talk like you - sassy head tilts."""
-    return Sequence([
-        Phase(Pose(3, 20, 12, 0.5, 0.7, 6), 0.1, "ease_out"),
-        Phase(Pose(5, 25, 15, 0.6, 0.8, 8), 0.12, "smooth"),
-        Phase(Pose(0, 15, 8, 0.5, 0.6, 4), 0.1, "ease_in"),
-    ], 0.8)
-
-def seq_swingers() -> Sequence:
-    """Swingers - full body swing with antenna countermotion."""
-    return Sequence([
-        Phase(Pose(3, -25, -8, 0.8, 0.3, -10), 0.15, "smooth"),
-        Phase(Pose(8, 0, 0, 0.5, 0.5, 0), 0.1, "ease_out"),
-        Phase(Pose(5, 30, 10, 0.3, 0.9, 12), 0.2, "smooth"),
-        Phase(Pose(5, 10, 3, 0.5, 0.6, 4), 0.15, "ease_in"),
-    ], 0.9)
-
-def seq_bam_left() -> Sequence:
-    return Sequence([
-        Phase(Pose(-8, -10, -5, 0.2, 0.5, -5), 0.06, "snap"),
-        Phase(Pose(0, -3, 0, 0.4, 0.4, -1), 0.06, "ease_out"),
-    ], 0.7)
-
-def seq_bam_right() -> Sequence:
-    return Sequence([
-        Phase(Pose(-8, 10, 5, 0.5, 0.2, 5), 0.06, "snap"),
-        Phase(Pose(0, 3, 0, 0.4, 0.4, 1), 0.06, "ease_out"),
-    ], 0.7)
-
-def seq_bam_center() -> Sequence:
-    return Sequence([
-        Phase(Pose(-12, 0, 0, 0.6, 0.6, 0), 0.05, "snap"),
-        Phase(Pose(5, 0, 0, 0.8, 0.8, 0), 0.05, "snap"),
-    ], 0.75)
-
-def seq_dream() -> Sequence:
-    """Dream - slow dreamy roll with asymmetric antenna float."""
-    return Sequence([
-        Phase(Pose(8, 10, 5, 0.4, 0.7, 3), 0.2, "ease_out"),
-        Phase(Pose(10, 20, 12, 0.5, 0.9, 6), 0.25, "smooth"),
-        Phase(Pose(12, 25, 15, 0.6, 1.0, 8), 0.2, "smooth"),
-        Phase(Pose(8, 15, 8, 0.5, 0.8, 5), 0.2, "ease_in"),
-        Phase(Pose(5, 8, 3, 0.4, 0.6, 2), 0.15, "smooth"),
-    ], 0.85)
-
-def seq_vip() -> Sequence:
-    """VIP - dramatic pause then snap into pose."""
-    return Sequence([
-        Phase(Pose(-2, 0, 0, 0.3, 0.3, 0), 0.15, "linear"),
-        Phase(Pose(12, 18, -5, 1.0, 1.0, 8), 0.08, "snap"),
-        Phase(Pose(10, 15, -3, 0.95, 0.95, 6), 0.2, "smooth"),
-        Phase(Pose(5, 8, 0, 0.7, 0.7, 3), 0.12, "ease_in"),
-    ], 0.95)
-
-def seq_point_up() -> Sequence:
-    """Point up on 'you' - emphatic with asymmetry."""
-    return Sequence([
-        Phase(Pose(-3, 0, 0, 0.3, 0.4, 0), 0.06, "smooth"),
-        Phase(Pose(15, 0, 0, 1.0, 0.95, 0), 0.1, "snap"),
-        Phase(Pose(12, 0, 2, 0.95, 1.0, 0), 0.12, "smooth"),
-        Phase(Pose(5, 0, 0, 0.6, 0.6, 0), 0.1, "ease_in"),
-    ], 0.85)
-
-def seq_power() -> Sequence:
-    """Power - strong pose with buildup."""
-    return Sequence([
-        Phase(Pose(-5, 0, 0, 0.3, 0.3, 0), 0.1, "smooth"),
-        Phase(Pose(18, 0, 0, 1.0, 1.0, 0), 0.12, "snap"),
-        Phase(Pose(15, 0, 2, 1.0, 1.0, 0), 0.2, "smooth"),
-        Phase(Pose(10, 0, 0, 0.8, 0.8, 0), 0.1, "ease_in"),
-    ], 0.95)
-
-def seq_frustrated() -> Sequence:
-    """Frustrated - shake with personality."""
-    return Sequence([
-        Phase(Pose(0, -18, -6, 0.4, 0.6, -4), 0.08, "snap"),
-        Phase(Pose(0, 18, 6, 0.6, 0.4, 4), 0.08, "snap"),
-        Phase(Pose(0, -10, -3, 0.5, 0.5, -2), 0.06, "snap"),
-        Phase(Pose(-3, 0, 0, 0.4, 0.4, 0), 0.08, "ease_in"),
-    ], 0.8)
-
-def seq_conspiratorial() -> Sequence:
-    """Conspiratorial - sneaky lean in."""
-    return Sequence([
-        Phase(Pose(0, -20, 0, 0.5, 0.5, -5), 0.12, "smooth"),
-        Phase(Pose(0, 15, 0, 0.5, 0.5, 3), 0.1, "smooth"),
-        Phase(Pose(-8, 25, 8, 0.4, 0.6, 8), 0.15, "ease_out"),
-        Phase(Pose(-5, 20, 5, 0.5, 0.6, 6), 0.15, "smooth"),
-    ], 0.85)
-
-def seq_aspiring() -> Sequence:
-    """Aspiring/human - reaching upward hopefully."""
-    return Sequence([
-        Phase(Pose(-5, 0, 0, 0.2, 0.2, 0), 0.1, "smooth"),
-        Phase(Pose(15, 5, 3, 0.8, 0.9, 2), 0.2, "ease_out"),
-        Phase(Pose(18, 0, 0, 1.0, 1.0, 0), 0.15, "smooth"),
-        Phase(Pose(10, 0, 0, 0.7, 0.8, 0), 0.15, "ease_in"),
-    ], 0.9)
-
-
-# Mapping from move names (in config JSON) to sequence functions
-MOVE_SEQUENCES = {
-    "king": seq_king,
-    "swingers": seq_swingers,
-    "conspiratorial": seq_conspiratorial,
-    "vip": seq_vip,
-    "point_up": seq_point_up,
-    "frustrated": seq_frustrated,
-    "walk": seq_walk,
-    "talk": seq_talk,
-    "fire": seq_fire,
-    "dream": seq_dream,
-    "power": seq_power,
-    "aspiring": seq_aspiring,
-    "like": None,  # Special: alternates left/right
-    "bam": None,   # Special: cycles through variations
-}
+# Movement parsing from config - no hardcoded movements
+def parse_movement_from_config(move_def: dict) -> Sequence:
+    """Parse a movement definition from config JSON into a Sequence."""
+    phases = []
+    for phase_def in move_def.get('phases', []):
+        pose_vals = phase_def['pose']  # [pitch, yaw, roll, ant_l, ant_r, body_yaw]
+        pose = Pose(
+            pose_vals[0], pose_vals[1], pose_vals[2],
+            pose_vals[3], pose_vals[4], pose_vals[5]
+        )
+        phases.append(Phase(pose, phase_def['duration'], phase_def.get('ease', 'smooth')))
+    return Sequence(phases, move_def.get('blend_weight', 0.85))
 
 
 class ChoreographyEngine:
-    """Manages lyric-triggered choreography with multi-phase sequences."""
+    """Manages lyric-triggered choreography with multi-phase sequences.
+
+    All movements are defined in config files, not hardcoded.
+    """
 
     def __init__(self, config: Optional[Dict] = None):
         self.active_sequence: Optional[Sequence] = None
         self.sequence_start_time: float = 0
-        self.like_counter: int = 0
-        self.bam_counter: int = 0
+        self.alt_counters: Dict[str, int] = {}  # For alternating moves
         self.triggers_fired: int = 0
-        self.triggers = self._build_triggers_from_config(config) if config else []
+        self.movements: Dict[str, dict] = {}  # Movement definitions from config
+        self.triggers: List[dict] = []
         self.current_idx = 0
 
-    def _build_triggers_from_config(self, config: Dict) -> List[dict]:
+        if config:
+            self._load_movements_from_config(config)
+            self._build_triggers_from_config(config)
+
+    def _load_movements_from_config(self, config: Dict):
+        """Load movement definitions from config JSON."""
+        for name, move_def in config.get('movements', {}).items():
+            self.movements[name] = move_def
+
+    def _build_triggers_from_config(self, config: Dict):
         """Build triggers list from config JSON."""
         triggers = []
         for trigger in config.get('triggers', []):
             time_val = trigger['at']
             move_name = trigger['move']
 
-            # Handle special alternating moves
-            if move_name == 'like':
-                fn = lambda: self._get_like()
-            elif move_name == 'bam':
-                fn = lambda: self._get_bam()
+            # Check if movement exists directly
+            if move_name in self.movements:
+                def make_fn(name):
+                    return lambda: parse_movement_from_config(self.movements[name])
+                triggers.append({"time": time_val, "fn": make_fn(move_name)})
+            # Check for alternating pattern (name_left, name_right, etc.)
+            elif f"{move_name}_left" in self.movements:
+                def make_alt_fn(base_name):
+                    def alt_fn():
+                        if base_name not in self.alt_counters:
+                            self.alt_counters[base_name] = 0
+                        self.alt_counters[base_name] += 1
+                        variants = [k for k in self.movements.keys() if k.startswith(f"{base_name}_")]
+                        variant = variants[self.alt_counters[base_name] % len(variants)]
+                        return parse_movement_from_config(self.movements[variant])
+                    return alt_fn
+                triggers.append({"time": time_val, "fn": make_alt_fn(move_name)})
             else:
-                fn = MOVE_SEQUENCES.get(move_name)
-                if fn is None:
-                    print(f"[WARN] Unknown move: {move_name}")
-                    continue
+                print(f"[WARN] Unknown move: {move_name}")
+                continue
 
-            triggers.append({"time": time_val, "fn": fn})
-
-        # Sort by time
         triggers.sort(key=lambda x: x['time'])
-        return triggers
-
-    def _get_like(self) -> Sequence:
-        self.like_counter += 1
-        return seq_like_left() if self.like_counter % 2 == 0 else seq_like_right()
-
-    def _get_bam(self) -> Sequence:
-        self.bam_counter += 1
-        p = self.bam_counter % 4
-        if p == 0: return seq_bam_left()
-        elif p == 1: return seq_bam_right()
-        elif p == 2: return seq_bam_center()
-        return seq_bam_right()
+        self.triggers = triggers
 
     def reset(self):
         self.current_idx = 0
         self.active_sequence = None
         self.sequence_start_time = 0
-        self.like_counter = 0
-        self.bam_counter = 0
+        self.alt_counters = {}
         self.triggers_fired = 0
 
     def update(self, t: float) -> Tuple[Optional[Pose], float]:
@@ -944,14 +796,16 @@ def run_choreographed_mode(config: Dict, volume_level='loud'):
                     if t >= duration:
                         break
 
-                    # Beat sync base
-                    bp = 8 * 0.5 * np.sin(2 * np.pi * beat_freq * t)
-                    by = 12 * 0.4 * np.sin(2 * np.pi * beat_freq / 2 * t)
-                    br = 6 * np.sin(2 * np.pi * beat_freq * t + np.pi / 4)
-                    ba = 0.4 + 0.2 * np.sin(2 * np.pi * beat_freq * 2 * t)
-                    bb = 10 * np.sin(2 * np.pi * beat_freq / 4 * t)
-
-                    beat_pose = Pose(bp, by, br, ba, ba, bb)
+                    # Beat sync base (can be disabled via config)
+                    if config.get('disable_beat_dance', False):
+                        beat_pose = Pose(0, 0, 0, 0, 0, 0)  # Use REST_POSE values
+                    else:
+                        bp = 8 * 0.5 * np.sin(2 * np.pi * beat_freq * t)
+                        by = 12 * 0.4 * np.sin(2 * np.pi * beat_freq / 2 * t)
+                        br = 6 * np.sin(2 * np.pi * beat_freq * t + np.pi / 4)
+                        ba = 0.4 + 0.2 * np.sin(2 * np.pi * beat_freq * 2 * t)
+                        bb = 10 * np.sin(2 * np.pi * beat_freq / 4 * t)
+                        beat_pose = Pose(bp, by, br, ba, ba, bb)
                     choreo_pose, weight = engine.update(t)
                     final = blend_choreo(beat_pose, choreo_pose, weight)
 

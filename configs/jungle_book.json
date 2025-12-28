@@ -2,6 +2,158 @@
   "title": "I Wanna Be Like You - The Jungle Book",
   "url": "https://www.youtube.com/watch?v=GokDMNue2Xc",
   "default_time": "normal",
+  "movements": {
+    "king": {
+      "phases": [
+        {"pose": [-5, 0, 0, 0.2, 0.2, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.5, 0.5, 0], "duration": 0.2, "ease": "ease_out"},
+        {"pose": [18, 20, 3, 0.9, 0.95, 5], "duration": 0.3, "ease": "smooth"},
+        {"pose": [15, 15, 0, 1.0, 1.0, 3], "duration": 0.3, "ease": "smooth"},
+        {"pose": [8, 5, 0, 0.7, 0.7, 0], "duration": 0.2, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "fire": {
+      "phases": [
+        {"pose": [-3, 0, 0, 0.2, 0.3, 0], "duration": 0.08, "ease": "snap"},
+        {"pose": [5, 0, 0, 0.6, 0.4, 0], "duration": 0.06, "ease": "snap"},
+        {"pose": [3, 0, 0, 0.4, 0.7, 0], "duration": 0.06, "ease": "snap"},
+        {"pose": [6, 0, 0, 0.8, 0.5, 0], "duration": 0.06, "ease": "snap"},
+        {"pose": [15, 0, 0, 1.0, 1.0, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [12, 0, 2, 1.0, 1.0, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.8, 0.8, 0], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.98
+    },
+    "like_left": {
+      "phases": [
+        {"pose": [0, -5, -3, 0.4, 0.5, -2], "duration": 0.08, "ease": "smooth"},
+        {"pose": [5, -15, 10, 0.8, 0.4, -5], "duration": 0.15, "ease": "ease_out"},
+        {"pose": [10, -10, 8, 0.9, 0.5, -3], "duration": 0.12, "ease": "smooth"},
+        {"pose": [3, -5, 3, 0.6, 0.5, -1], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.85
+    },
+    "like_right": {
+      "phases": [
+        {"pose": [0, 5, 3, 0.5, 0.4, 2], "duration": 0.08, "ease": "smooth"},
+        {"pose": [5, 15, -10, 0.4, 0.8, 5], "duration": 0.15, "ease": "ease_out"},
+        {"pose": [10, 10, -8, 0.5, 0.9, 3], "duration": 0.12, "ease": "smooth"},
+        {"pose": [3, 5, -3, 0.5, 0.6, 1], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.85
+    },
+    "walk": {
+      "phases": [
+        {"pose": [-10, 8, 5, 0.3, 0.5, 4], "duration": 0.1, "ease": "snap"},
+        {"pose": [5, -5, -3, 0.6, 0.4, -2], "duration": 0.1, "ease": "ease_out"},
+        {"pose": [3, 10, 6, 0.5, 0.6, 3], "duration": 0.1, "ease": "smooth"}
+      ],
+      "blend_weight": 0.75
+    },
+    "talk": {
+      "phases": [
+        {"pose": [3, 20, 12, 0.5, 0.7, 6], "duration": 0.1, "ease": "ease_out"},
+        {"pose": [5, 25, 15, 0.6, 0.8, 8], "duration": 0.12, "ease": "smooth"},
+        {"pose": [0, 15, 8, 0.5, 0.6, 4], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.8
+    },
+    "swingers": {
+      "phases": [
+        {"pose": [3, -25, -8, 0.8, 0.3, -10], "duration": 0.15, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.5, 0.5, 0], "duration": 0.1, "ease": "ease_out"},
+        {"pose": [5, 30, 10, 0.3, 0.9, 12], "duration": 0.2, "ease": "smooth"},
+        {"pose": [5, 10, 3, 0.5, 0.6, 4], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.9
+    },
+    "bam_left": {
+      "phases": [
+        {"pose": [-8, -10, -5, 0.2, 0.5, -5], "duration": 0.06, "ease": "snap"},
+        {"pose": [0, -3, 0, 0.4, 0.4, -1], "duration": 0.06, "ease": "ease_out"}
+      ],
+      "blend_weight": 0.7
+    },
+    "bam_right": {
+      "phases": [
+        {"pose": [-8, 10, 5, 0.5, 0.2, 5], "duration": 0.06, "ease": "snap"},
+        {"pose": [0, 3, 0, 0.4, 0.4, 1], "duration": 0.06, "ease": "ease_out"}
+      ],
+      "blend_weight": 0.7
+    },
+    "bam_center": {
+      "phases": [
+        {"pose": [-12, 0, 0, 0.6, 0.6, 0], "duration": 0.05, "ease": "snap"},
+        {"pose": [5, 0, 0, 0.8, 0.8, 0], "duration": 0.05, "ease": "snap"}
+      ],
+      "blend_weight": 0.75
+    },
+    "dream": {
+      "phases": [
+        {"pose": [8, 10, 5, 0.4, 0.7, 3], "duration": 0.2, "ease": "ease_out"},
+        {"pose": [10, 20, 12, 0.5, 0.9, 6], "duration": 0.25, "ease": "smooth"},
+        {"pose": [12, 25, 15, 0.6, 1.0, 8], "duration": 0.2, "ease": "smooth"},
+        {"pose": [8, 15, 8, 0.5, 0.8, 5], "duration": 0.2, "ease": "ease_in"},
+        {"pose": [5, 8, 3, 0.4, 0.6, 2], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "vip": {
+      "phases": [
+        {"pose": [-2, 0, 0, 0.3, 0.3, 0], "duration": 0.15, "ease": "linear"},
+        {"pose": [12, 18, -5, 1.0, 1.0, 8], "duration": 0.08, "ease": "snap"},
+        {"pose": [10, 15, -3, 0.95, 0.95, 6], "duration": 0.2, "ease": "smooth"},
+        {"pose": [5, 8, 0, 0.7, 0.7, 3], "duration": 0.12, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "point_up": {
+      "phases": [
+        {"pose": [-3, 0, 0, 0.3, 0.4, 0], "duration": 0.06, "ease": "smooth"},
+        {"pose": [15, 0, 0, 1.0, 0.95, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [12, 0, 2, 0.95, 1.0, 0], "duration": 0.12, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.6, 0.6, 0], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.85
+    },
+    "power": {
+      "phases": [
+        {"pose": [-5, 0, 0, 0.3, 0.3, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [15, 0, 2, 1.0, 1.0, 0], "duration": 0.2, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.8, 0.8, 0], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "frustrated": {
+      "phases": [
+        {"pose": [0, -18, -6, 0.4, 0.6, -4], "duration": 0.08, "ease": "snap"},
+        {"pose": [0, 18, 6, 0.6, 0.4, 4], "duration": 0.08, "ease": "snap"},
+        {"pose": [0, -10, -3, 0.5, 0.5, -2], "duration": 0.06, "ease": "snap"},
+        {"pose": [-3, 0, 0, 0.4, 0.4, 0], "duration": 0.08, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.8
+    },
+    "conspiratorial": {
+      "phases": [
+        {"pose": [0, -20, 0, 0.5, 0.5, -5], "duration": 0.12, "ease": "smooth"},
+        {"pose": [0, 15, 0, 0.5, 0.5, 3], "duration": 0.1, "ease": "smooth"},
+        {"pose": [-8, 25, 8, 0.4, 0.6, 8], "duration": 0.15, "ease": "ease_out"},
+        {"pose": [-5, 20, 5, 0.5, 0.6, 6], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "aspiring": {
+      "phases": [
+        {"pose": [-5, 0, 0, 0.2, 0.2, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [15, 5, 3, 0.8, 0.9, 2], "duration": 0.2, "ease": "ease_out"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.15, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.7, 0.8, 0], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.9
+    }
+  },
   "triggers": [
     {"at": 8.50, "move": "king"},
     {"at": 9.20, "move": "swingers"},
@@ -29,7 +181,7 @@
     {"at": 40.50, "move": "aspiring"},
     {"at": 71.76, "move": "conspiratorial"},
     {"at": 75.40, "move": "conspiratorial"},
-    {"at": 77.50, "move": "fire", "_comment": "King Louie: man's red fire"},
+    {"at": 77.50, "move": "fire"},
     {"at": 82.28, "move": "frustrated"},
     {"at": 86.54, "move": "dream"},
     {"at": 88.12, "move": "fire"},
@@ -52,8 +204,5 @@
     {"at": 177.56, "move": "bam"},
     {"at": 177.88, "move": "bam"},
     {"at": 178.00, "move": "bam"}
-  ],
-  "_notes": {
-    "fire_2_removed": "79.92s was Mowgli's spoken 'I don't know how to make fire', not King Louie singing"
-  }
+  ]
 }

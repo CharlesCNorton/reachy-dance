@@ -1,0 +1,117 @@
+{
+  "title": "Daisy Bell (Bicycle Built for Two)",
+  "url": "https://www.youtube.com/watch?v=2G-tf2PG4dM",
+  "default_time": "half",
+  "_notes": "1892 song - slow, romantic, drawn-out endings. Half-time for gentle swaying.",
+  "triggers": [
+    {"at": 9.10, "move": "flower", "_lyric": "flower"},
+    {"at": 10.94, "move": "heart", "_lyric": "heart (drawn out)"},
+    {"at": 12.40, "move": "daisy_call", "_lyric": "Daisy,"},
+    {"at": 13.52, "move": "daisy_long", "_lyric": "Daisy, (drawn out to 15.28s)"},
+    {"at": 20.38, "move": "daisy_call", "_lyric": "Daisy"},
+    {"at": 21.00, "move": "belle_long", "_lyric": "Belle (drawn out)"},
+
+    {"at": 23.78, "move": "yearning", "_lyric": "loved me"},
+    {"at": 25.72, "move": "shake_no", "_lyric": "not"},
+    {"at": 29.04, "move": "tell_long", "_lyric": "tell (drawn out)"},
+
+    {"at": 31.26, "move": "longing", "_lyric": "longing"},
+    {"at": 32.64, "move": "share", "_lyric": "share"},
+    {"at": 33.94, "move": "beautiful", "_lyric": "beautiful"},
+    {"at": 35.84, "move": "belle_long", "_lyric": "Belle (2.5s hold)"},
+
+    {"at": 40.60, "move": "daisy_call", "_lyric": "Daisy, - CHORUS 1"},
+    {"at": 41.52, "move": "daisy_long", "_lyric": "Daisy,"},
+    {"at": 42.88, "move": "pleading", "_lyric": "give me"},
+    {"at": 44.22, "move": "answer", "_lyric": "answer"},
+    {"at": 44.78, "move": "two_long", "_lyric": "too (drawn out)"},
+
+    {"at": 47.76, "move": "half", "_lyric": "half"},
+    {"at": 48.40, "move": "crazy_long", "_lyric": "crazy (drawn out 1.5s)"},
+    {"at": 50.50, "move": "all_for", "_lyric": "all for"},
+    {"at": 51.38, "move": "love", "_lyric": "love"},
+    {"at": 52.36, "move": "you_long", "_lyric": "you (drawn out)"},
+
+    {"at": 54.00, "move": "wont", "_lyric": "won't"},
+    {"at": 55.14, "move": "stylish", "_lyric": "stylish"},
+    {"at": 55.86, "move": "marriage", "_lyric": "marriage"},
+    {"at": 58.66, "move": "afford", "_lyric": "afford"},
+    {"at": 59.78, "move": "carriage", "_lyric": "carriage"},
+    {"at": 61.44, "move": "you_sweet", "_lyric": "you"},
+    {"at": 62.36, "move": "sweet_long", "_lyric": "sweet (held)"},
+
+    {"at": 64.36, "move": "seat", "_lyric": "seat"},
+    {"at": 65.42, "move": "bicycle", "_lyric": "bicycle"},
+    {"at": 66.70, "move": "built_for", "_lyric": "built for"},
+    {"at": 67.30, "move": "two_finale", "_lyric": "two (big finish)"},
+
+    {"at": 69.84, "move": "daisy_call", "_lyric": "Daisy, - CHORUS 2"},
+    {"at": 70.96, "move": "daisy_long", "_lyric": "Daisy,"},
+    {"at": 72.86, "move": "pleading", "_lyric": "give me"},
+    {"at": 74.18, "move": "answer", "_lyric": "answer"},
+    {"at": 74.76, "move": "two_long", "_lyric": "too"},
+
+    {"at": 78.18, "move": "half", "_lyric": "half"},
+    {"at": 78.42, "move": "crazy_long", "_lyric": "crazy"},
+    {"at": 80.52, "move": "all_for", "_lyric": "all for"},
+    {"at": 81.38, "move": "love", "_lyric": "love"},
+    {"at": 82.32, "move": "you_long", "_lyric": "you"},
+
+    {"at": 83.92, "move": "wont", "_lyric": "won't"},
+    {"at": 85.16, "move": "stylish", "_lyric": "stylish"},
+    {"at": 85.80, "move": "marriage", "_lyric": "marriage"},
+    {"at": 88.64, "move": "afford", "_lyric": "afford"},
+    {"at": 89.78, "move": "carriage", "_lyric": "carriage"},
+    {"at": 91.46, "move": "you_sweet", "_lyric": "you"},
+    {"at": 92.38, "move": "sweet_long", "_lyric": "sweet"},
+
+    {"at": 94.42, "move": "seat", "_lyric": "seat"},
+    {"at": 95.38, "move": "bicycle", "_lyric": "bicycle"},
+    {"at": 96.64, "move": "built_for", "_lyric": "built for"},
+    {"at": 97.20, "move": "two_finale", "_lyric": "two"},
+
+    {"at": 107.34, "move": "stand_by", "_lyric": "stand by you"},
+    {"at": 110.96, "move": "daisy_call", "_lyric": "Daisy, - VERSE 3"},
+    {"at": 112.36, "move": "daisy_long", "_lyric": "Daisy,"},
+    {"at": 114.28, "move": "youll_be", "_lyric": "you'll be"},
+    {"at": 115.36, "move": "bell", "_lyric": "bell"},
+    {"at": 116.40, "move": "ring", "_lyric": "ring"},
+
+    {"at": 118.18, "move": "sweet_little", "_lyric": "Sweet little"},
+    {"at": 119.08, "move": "daisy_call", "_lyric": "Daisy"},
+    {"at": 120.02, "move": "belle_long", "_lyric": "Belle"},
+    {"at": 122.40, "move": "take_lead", "_lyric": "take the lead"},
+
+    {"at": 127.16, "move": "dont_well", "_lyric": "don't do well"},
+    {"at": 130.14, "move": "permit", "_lyric": "permit"},
+    {"at": 131.98, "move": "brake", "_lyric": "the break"},
+    {"at": 133.20, "move": "beautiful", "_lyric": "beautiful"},
+    {"at": 134.18, "move": "daisy_call", "_lyric": "Daisy"},
+    {"at": 135.14, "move": "belle_long", "_lyric": "Belle (2.5s hold)"},
+
+    {"at": 140.16, "move": "daisy_call", "_lyric": "Daisy, - FINAL CHORUS"},
+    {"at": 141.12, "move": "daisy_long", "_lyric": "Daisy,"},
+    {"at": 142.36, "move": "pleading", "_lyric": "give me"},
+    {"at": 143.72, "move": "answer", "_lyric": "answer"},
+    {"at": 144.34, "move": "two_long", "_lyric": "too"},
+
+    {"at": 147.72, "move": "half", "_lyric": "half"},
+    {"at": 147.98, "move": "crazy_long", "_lyric": "crazy"},
+    {"at": 150.22, "move": "all_for", "_lyric": "all for"},
+    {"at": 151.02, "move": "love", "_lyric": "love"},
+    {"at": 152.06, "move": "you_long", "_lyric": "you"},
+
+    {"at": 153.72, "move": "wont", "_lyric": "won't"},
+    {"at": 154.84, "move": "stylish", "_lyric": "stylish"},
+    {"at": 155.54, "move": "marriage", "_lyric": "marriage"},
+    {"at": 158.48, "move": "afford", "_lyric": "afford"},
+    {"at": 159.60, "move": "carriage", "_lyric": "carriage"},
+    {"at": 161.36, "move": "you_sweet", "_lyric": "you"},
+    {"at": 162.28, "move": "sweet_long", "_lyric": "sweet"},
+
+    {"at": 164.30, "move": "seat", "_lyric": "seat"},
+    {"at": 165.34, "move": "bicycle", "_lyric": "bicycle"},
+    {"at": 166.62, "move": "built_for", "_lyric": "built for"},
+    {"at": 167.18, "move": "two_finale", "_lyric": "two (GRAND FINALE)"}
+  ]
+}
