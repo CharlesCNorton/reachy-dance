@@ -96,7 +96,7 @@ CHOREO_TIMESTAMPS = {
     "like_2": 32.94, "you_2": 33.26, "talk": 33.74, "like_3": 34.02,
     "you_3": 34.42, "true": 36.00, "ape": 38.50, "human": 40.50,
     "deal": 71.76, "secret_1": 75.40, "fire_1": 77.50, "fire_2": 79.92,
-    "kid": 82.28, "desire": 86.54, "fire_3": 88.12, "dream": 89.30,
+    "kid": 82.28, "desire": 86.54, "dream": 89.30,  # fire_3 removed: 88.12 is Mowgli's spoken "I don't know how to make fire", not King Louie singing
     "secret_2": 91.56, "power": 96.46, "flower": 97.82, "you_4": 99.70,
     "bam_1": 125.52, "bam_2": 126.14, "bam_3": 126.56, "bam_4": 126.90,
     "like_4": 159.22, "like_5": 163.24, "learn": 167.36, "you_5": 169.60,
@@ -400,7 +400,6 @@ class ChoreographyEngine:
             {"time": ts["fire_2"], "fn": seq_fire},
             {"time": ts["kid"], "fn": seq_frustrated},
             {"time": ts["desire"], "fn": seq_dream},
-            {"time": ts["fire_3"], "fn": seq_fire},
             {"time": ts["dream"], "fn": seq_dream},
             {"time": ts["secret_2"], "fn": seq_conspiratorial},
             {"time": ts["power"], "fn": seq_power},
