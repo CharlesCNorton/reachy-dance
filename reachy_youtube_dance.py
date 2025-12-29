@@ -142,8 +142,8 @@ class ChoreoLimits:
     HEAD_YAW_MAX: float = 45.0
     HEAD_ROLL_MIN: float = -20.0
     HEAD_ROLL_MAX: float = 20.0
-    ANTENNA_MIN: float = 0.0
-    ANTENNA_MAX: float = 1.0
+    ANTENNA_MIN: float = -3.14  # -180 degrees
+    ANTENNA_MAX: float = 3.14   # +180 degrees
     BODY_YAW_MIN: float = -15.0
     BODY_YAW_MAX: float = 15.0
 
