@@ -38,10 +38,11 @@ from dataclasses import dataclass
 from typing import Optional, List, Tuple, Dict, Any
 
 VOLUME_LEVELS = {
+    'silent': None,  # No audio playback
+    'quiet': -6,
     'normal': 0,
     'loud': 6,
     'max': 12,
-    'quiet': -6,
 }
 
 # TIME_MULTIPLIERS: Adjusts the groove/movement timing relative to detected BPM.
@@ -584,14 +585,17 @@ def prepare_track(url, volume_level='loud'):
         return None, "Audio file not created"
 
     db_boost = VOLUME_LEVELS.get(volume_level, 6)
-    print(f"[AUDIO] Applying volume: {volume_level} ({db_boost:+d} dB)")
-    try:
-        from pydub import AudioSegment
-        audio = AudioSegment.from_wav(output_file)
-        boosted = audio + db_boost
-        boosted.export(output_file, format="wav")
-    except Exception as e:
-        print(f"[WARN] Could not adjust volume: {e}")
+    if db_boost is not None:
+        print(f"[AUDIO] Applying volume: {volume_level} ({db_boost:+d} dB)")
+        try:
+            from pydub import AudioSegment
+            audio = AudioSegment.from_wav(output_file)
+            boosted = audio + db_boost
+            boosted.export(output_file, format="wav")
+        except Exception as e:
+            print(f"[WARN] Could not adjust volume: {e}")
+    else:
+        print(f"[AUDIO] Silent mode - audio prepared but won't play")
 
     try:
         analysis = analyze_audio(output_file)
@@ -621,11 +625,14 @@ def play_track(mini, output_file, analysis, stop_event, error_event, config=None
     print("=" * 60)
     print()
 
-    # Start audio FIRST, then dance
-    try:
-        mini.media.play_sound(output_file)
-    except Exception as e:
-        print(f"[WARN] Audio playback error: {e}")
+    # Start audio FIRST, then dance (skip if silent mode)
+    if CURRENT_VOLUME != 'silent':
+        try:
+            mini.media.play_sound(output_file)
+        except Exception as e:
+            print(f"[WARN] Audio playback error: {e}")
+    else:
+        print("[AUDIO] Silent mode - no audio playback")
 
     dance_thread.start()
 
@@ -670,7 +677,7 @@ def interactive_prompt():
 def change_volume():
     """Prompt user to change volume."""
     global CURRENT_VOLUME
-    print("\nVolume levels: quiet (-6dB) | normal (0dB) | loud (+6dB) | max (+12dB)")
+    print("\nVolume levels: silent | quiet (-6dB) | normal (0dB) | loud (+6dB) | max (+12dB)")
     try:
         choice = input("New volume: ").strip().lower()
         if choice in VOLUME_LEVELS:
@@ -728,14 +735,17 @@ def run_choreographed_mode(config: Dict, volume_level='loud'):
         return 1
 
     db_boost = VOLUME_LEVELS.get(volume_level, 6)
-    print(f"[AUDIO] Applying volume: {volume_level} ({db_boost:+d} dB)")
-    try:
-        from pydub import AudioSegment
-        audio = AudioSegment.from_wav(output_file)
-        boosted = audio + db_boost
-        boosted.export(output_file, format="wav")
-    except Exception as e:
-        print(f"[WARN] Could not adjust volume: {e}")
+    if db_boost is not None:
+        print(f"[AUDIO] Applying volume: {volume_level} ({db_boost:+d} dB)")
+        try:
+            from pydub import AudioSegment
+            audio = AudioSegment.from_wav(output_file)
+            boosted = audio + db_boost
+            boosted.export(output_file, format="wav")
+        except Exception as e:
+            print(f"[WARN] Could not adjust volume: {e}")
+    else:
+        print(f"[AUDIO] Silent mode - audio prepared but won't play")
 
     print("[ANALYSIS] Detecting tempo...")
     y, sr = librosa.load(output_file, sr=None)
@@ -783,11 +793,14 @@ def run_choreographed_mode(config: Dict, volume_level='loud'):
             print("=" * 60)
             print()
 
-            # Start audio FIRST
-            try:
-                mini.media.play_sound(output_file)
-            except Exception as e:
-                print(f"[WARN] Audio: {e}")
+            # Start audio FIRST (skip if silent mode)
+            if CURRENT_VOLUME != 'silent':
+                try:
+                    mini.media.play_sound(output_file)
+                except Exception as e:
+                    print(f"[WARN] Audio: {e}")
+            else:
+                print("[AUDIO] Silent mode - no audio playback")
 
             # THEN start dance loop
             start_time = time.time()
@@ -891,7 +904,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Reachy YouTube Dance")
     parser.add_argument('url', nargs='?', help='YouTube URL to play')
-    parser.add_argument('--volume', '-v', choices=['quiet', 'normal', 'loud', 'max'],
+    parser.add_argument('--volume', '-v', choices=['silent', 'quiet', 'normal', 'loud', 'max'],
                         default='loud', help='Volume level (default: loud)')
     parser.add_argument('--time', '-t', choices=['normal', 'half', 'double', 'quarter'],
                         default='normal', help='Groove timing relative to detected BPM (default: normal)')
