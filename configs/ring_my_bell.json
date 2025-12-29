@@ -1,5 +1,527 @@
 {
   "title": "Ring My Bell - Anita Ward",
   "url": "https://www.youtube.com/watch?v=1eRBRL27rCQ",
-  "default_time": "normal"
+  "default_time": "normal",
+  "movements": {
+    "antenna_ring": {
+      "phases": [
+        {
+          "pose": [
+            3,
+            0,
+            0,
+            0.5,
+            0.5,
+            0
+          ],
+          "duration": 0.1,
+          "ease": "smooth"
+        },
+        {
+          "pose": [
+            5,
+            0,
+            0,
+            0.2,
+            0.9,
+            0
+          ],
+          "duration": 0.15,
+          "ease": "smooth"
+        },
+        {
+          "pose": [
+            5,
+            0,
+            0,
+            0.9,
+            0.2,
+            0
+          ],
+          "duration": 0.15,
+          "ease": "smooth"
+        },
+        {
+          "pose": [
+            5,
+            0,
+            0,
+            0.2,
+            0.9,
+            0
+          ],
+          "duration": 0.15,
+          "ease": "smooth"
+        },
+        {
+          "pose": [
+            5,
+            0,
+            0,
+            0.9,
+            0.2,
+            0
+          ],
+          "duration": 0.15,
+          "ease": "smooth"
+        },
+        {
+          "pose": [
+            3,
+            0,
+            0,
+            0.5,
+            0.5,
+            0
+          ],
+          "duration": 0.2,
+          "ease": "smooth"
+        }
+      ],
+      "blend_weight": 0.9
+    },
+    "ding_dong": {
+      "phases": [
+        {
+          "pose": [
+            8,
+            -10,
+            0,
+            0.8,
+            0.3,
+            -5
+          ],
+          "duration": 0.12,
+          "ease": "snap"
+        },
+        {
+          "pose": [
+            8,
+            10,
+            0,
+            0.3,
+            0.8,
+            5
+          ],
+          "duration": 0.12,
+          "ease": "snap"
+        },
+        {
+          "pose": [
+            5,
+            0,
+            0,
+            0.5,
+            0.5,
+            0
+          ],
+          "duration": 0.15,
+          "ease": "smooth"
+        }
+      ],
+      "blend_weight": 0.85
+    }
+  },
+  "triggers": [
+    {
+      "at": 92.9,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 96.64,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 100.6,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 104.4,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 108.32,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 112.12,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 116.04,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 119.74,
+      "move": "antenna_ring",
+      "_lyric": "bell."
+    },
+    {
+      "at": 154.2,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 158.04,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 158.84,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 161.96,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 165.56,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 166.7,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 169.62,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 173.34,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 174.36,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 177.72,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 180.86,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 181.92,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 201.58,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 203.54,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 203.88,
+      "move": "ding_dong",
+      "_lyric": "Ding"
+    },
+    {
+      "at": 204.26,
+      "move": "ding_dong",
+      "_lyric": "dong,"
+    },
+    {
+      "at": 204.84,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 209.26,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 216.82,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 218.76,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 224.46,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 230.7,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 235.16,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 236.8,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 241.8,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 242.84,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 245.7,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 249.44,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 250.46,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 253.58,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 257.12,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 338.36,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 340.32,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 340.76,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 341.1,
+      "move": "ding_dong",
+      "_lyric": "dong,"
+    },
+    {
+      "at": 341.66,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 342.08,
+      "move": "ding_dong",
+      "_lyric": "dong,"
+    },
+    {
+      "at": 346.02,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 353.6,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 355.52,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 355.98,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 356.34,
+      "move": "ding_dong",
+      "_lyric": "dong,"
+    },
+    {
+      "at": 356.84,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 357.18,
+      "move": "ding_dong",
+      "_lyric": "dong,"
+    },
+    {
+      "at": 361.24,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 370.92,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 371.98,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 372.62,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 373.42,
+      "move": "ding_dong",
+      "_lyric": "dong"
+    },
+    {
+      "at": 373.86,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 378.54,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 379.58,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 380.26,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 386.14,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 387.14,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 387.82,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 388.6,
+      "move": "ding_dong",
+      "_lyric": "dong"
+    },
+    {
+      "at": 389.02,
+      "move": "ding_dong",
+      "_lyric": "ding"
+    },
+    {
+      "at": 390.54,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 394.8,
+      "move": "antenna_ring",
+      "_lyric": "bell,"
+    },
+    {
+      "at": 451.12,
+      "move": "antenna_ring",
+      "_lyric": "Bell,"
+    },
+    {
+      "at": 454.56,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 455.48,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 458.88,
+      "move": "antenna_ring",
+      "_lyric": "Bell,"
+    },
+    {
+      "at": 462.12,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 467.06,
+      "move": "antenna_ring",
+      "_lyric": "Bell,"
+    },
+    {
+      "at": 469.7,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 474.72,
+      "move": "antenna_ring",
+      "_lyric": "Bell,"
+    },
+    {
+      "at": 477.32,
+      "move": "antenna_ring",
+      "_lyric": "bell"
+    },
+    {
+      "at": 478.08,
+      "move": "antenna_ring",
+      "_lyric": "-bell,"
+    },
+    {
+      "at": 479.36,
+      "move": "antenna_ring",
+      "_lyric": "-bell,"
+    },
+    {
+      "at": 480.78,
+      "move": "antenna_ring",
+      "_lyric": "-bell"
+    }
+  ]
 }
