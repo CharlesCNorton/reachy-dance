@@ -37,6 +37,10 @@ import traceback
 from dataclasses import dataclass
 from typing import Optional, List, Tuple, Dict, Any
 
+# Force line-buffered output for real-time progress visibility
+sys.stdout.reconfigure(line_buffering=True)
+sys.stderr.reconfigure(line_buffering=True)
+
 VOLUME_LEVELS = {
     'silent': None,  # No audio playback
     'quiet': -6,
