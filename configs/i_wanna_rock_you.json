@@ -1,0 +1,208 @@
+{
+  "title": "I Wanna Rock You - Giorgio Moroder",
+  "url": "https://www.youtube.com/watch?v=PTuaWSfwnj8",
+  "default_time": "normal",
+  "notes": {
+    "tempo_bpm": 123.0,
+    "duration_sec": 390,
+    "percussive_ratio": 0.796,
+    "structure": "SynthIntro(0-81) -> Verse1(81-111) -> PreChorus(111-123) -> Chorus(123-145) -> Bridge(145-187) -> Verse2(187-217) -> PreChorus2(217-230) -> Chorus2(230-276) -> Vocoder(276-382)"
+  },
+  "movements": {
+    "disco_nod": {
+      "phases": [
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.24, "ease": "smooth"},
+        {"pose": [0, 0, 0, 0.4, 0.4, 0], "duration": 0.24, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "disco_sway": {
+      "phases": [
+        {"pose": [5, -15, 0, 0.7, 0.3, -5], "duration": 0.48, "ease": "smooth"},
+        {"pose": [5, 15, 0, 0.3, 0.7, 5], "duration": 0.48, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "rock_you": {
+      "phases": [
+        {"pose": [12, 0, 0, 1.0, 1.0, 0], "duration": 0.2, "ease": "snap"},
+        {"pose": [12, -10, 0, 0.8, 0.4, -3], "duration": 0.2, "ease": "smooth"},
+        {"pose": [12, 10, 0, 0.4, 0.8, 3], "duration": 0.2, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.2, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "roll_you": {
+      "phases": [
+        {"pose": [5, -20, 8, 0.8, 0.2, -8], "duration": 0.3, "ease": "smooth"},
+        {"pose": [5, 20, -8, 0.2, 0.8, 8], "duration": 0.3, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.5, 0.5, 0], "duration": 0.2, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "night_moves": {
+      "phases": [
+        {"pose": [3, -25, 0, 0.5, 0.5, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [3, 25, 0, 0.5, 0.5, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [6, 0, 0, 0.6, 0.6, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "synth_pulse": {
+      "phases": [
+        {"pose": [10, 0, 0, 0.9, 0.9, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [4, 0, 0, 0.3, 0.3, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [10, 0, 0, 0.9, 0.9, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [4, 0, 0, 0.3, 0.3, 0], "duration": 0.12, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "vocoder_groove": {
+      "phases": [
+        {"pose": [6, -8, 0, 0.7, 0.4, -4], "duration": 0.24, "ease": "smooth"},
+        {"pose": [6, 8, 0, 0.4, 0.7, 4], "duration": 0.24, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    },
+    "all_night_long": {
+      "phases": [
+        {"pose": [15, 0, 0, 1.0, 1.0, 0], "duration": 0.3, "ease": "snap"},
+        {"pose": [15, -12, 0, 0.9, 0.5, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [15, 12, 0, 0.5, 0.9, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.7, 0.7, 0], "duration": 0.2, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "feel_right": {
+      "phases": [
+        {"pose": [-5, 0, 0, 0.2, 0.2, 0], "duration": 0.25, "ease": "smooth"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.25, "ease": "snap"},
+        {"pose": [10, 0, 0, 0.6, 0.6, 0], "duration": 0.3, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "oh_pulse": {
+      "phases": [
+        {"pose": [8, 0, 5, 0.8, 0.8, 0], "duration": 0.2, "ease": "snap"},
+        {"pose": [4, 0, -5, 0.4, 0.4, 0], "duration": 0.2, "ease": "smooth"}
+      ],
+      "blend_weight": 0.85
+    },
+    "synth_intro": {
+      "phases": [
+        {"pose": [5, -10, 0, 0.5, 0.3, 0], "duration": 0.4, "ease": "smooth"},
+        {"pose": [5, 10, 0, 0.3, 0.5, 0], "duration": 0.4, "ease": "smooth"}
+      ],
+      "blend_weight": 0.75
+    },
+    "moroder_build": {
+      "phases": [
+        {"pose": [3, 0, 0, 0.4, 0.4, 0], "duration": 0.3, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.7, 0.7, 0], "duration": 0.3, "ease": "smooth"},
+        {"pose": [12, 0, 0, 0.9, 0.9, 0], "duration": 0.3, "ease": "snap"}
+      ],
+      "blend_weight": 0.85
+    },
+    "robot_scan": {
+      "phases": [
+        {"pose": [0, -30, 0, 0.5, 0.5, 0], "duration": 0.6, "ease": "smooth"},
+        {"pose": [0, 30, 0, 0.5, 0.5, 0], "duration": 0.6, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.6, 0.6, 0], "duration": 0.3, "ease": "smooth"}
+      ],
+      "blend_weight": 0.8
+    }
+  },
+  "triggers": [
+    {"at": 2.25, "move": "synth_intro", "_lyric": "synth intro begins"},
+    {"at": 5.7, "move": "synth_intro", "_lyric": "synth pulse"},
+    {"at": 9.2, "move": "robot_scan", "_lyric": "scanning"},
+    {"at": 13.1, "move": "synth_intro", "_lyric": "synth layer"},
+    {"at": 17.1, "move": "moroder_build", "_lyric": "building"},
+    {"at": 21.0, "move": "synth_intro", "_lyric": "synth pulse"},
+    {"at": 25.0, "move": "robot_scan", "_lyric": "scanning"},
+    {"at": 29.0, "move": "synth_intro", "_lyric": "synth layer"},
+    {"at": 33.0, "move": "moroder_build", "_lyric": "intensity rising"},
+    {"at": 37.0, "move": "synth_intro", "_lyric": "synth pulse"},
+    {"at": 41.0, "move": "synth_intro", "_lyric": "synth pulse"},
+    {"at": 45.0, "move": "robot_scan", "_lyric": "scanning"},
+    {"at": 49.0, "move": "moroder_build", "_lyric": "building"},
+    {"at": 53.0, "move": "synth_intro", "_lyric": "synth layer"},
+    {"at": 57.0, "move": "synth_intro", "_lyric": "synth pulse"},
+    {"at": 61.0, "move": "robot_scan", "_lyric": "pre-vocal tension"},
+    {"at": 65.0, "move": "moroder_build", "_lyric": "final build"},
+    {"at": 69.0, "move": "synth_intro", "_lyric": "synth pulse"},
+    {"at": 73.0, "move": "moroder_build", "_lyric": "approaching vocals"},
+    {"at": 77.0, "move": "synth_pulse", "_lyric": "transition to verse"},
+
+    {"at": 81.12, "move": "disco_sway", "_lyric": "I've been watching"},
+    {"at": 82.90, "move": "disco_nod", "_lyric": "dancing"},
+    {"at": 85.06, "move": "disco_sway", "_lyric": "It's good to see"},
+    {"at": 88.82, "move": "night_moves", "_lyric": "I wanna show you my night moves"},
+    {"at": 92.80, "move": "disco_nod", "_lyric": "baby I got a lot"},
+    {"at": 97.18, "move": "disco_sway", "_lyric": "Got the hearts for your body"},
+    {"at": 100.88, "move": "night_moves", "_lyric": "wanna try it for size"},
+    {"at": 104.86, "move": "disco_sway", "_lyric": "Come on and move with me"},
+    {"at": 108.76, "move": "disco_nod", "_lyric": "look in your eyes"},
+
+    {"at": 111.76, "move": "synth_pulse", "_lyric": "Let me show you a night"},
+    {"at": 114.90, "move": "synth_pulse", "_lyric": "Let me make you"},
+    {"at": 118.30, "move": "feel_right", "_lyric": "feel right"},
+    {"at": 120.26, "move": "disco_sway", "_lyric": "One night love"},
+
+    {"at": 123.68, "move": "rock_you", "_lyric": "I wanna rock you"},
+    {"at": 127.78, "move": "roll_you", "_lyric": "I wanna roll you"},
+    {"at": 133.82, "move": "rock_you", "_lyric": "I wanna roll you"},
+    {"at": 136.70, "move": "synth_pulse", "_lyric": "Got the heart"},
+    {"at": 140.02, "move": "rock_you", "_lyric": "I wanna rock you"},
+    {"at": 143.60, "move": "roll_you", "_lyric": "I wanna drive this"},
+
+    {"at": 187.90, "move": "disco_sway", "_lyric": "I got the music to move you"},
+    {"at": 191.98, "move": "night_moves", "_lyric": "Sit back we'll go for a ride"},
+    {"at": 196.00, "move": "roll_you", "_lyric": "I'll rock and roll you to heaven"},
+    {"at": 200.20, "move": "disco_nod", "_lyric": "In the dark of the night"},
+    {"at": 203.92, "move": "disco_sway", "_lyric": "You're my night time lady"},
+    {"at": 207.92, "move": "disco_sway", "_lyric": "I'm your night time man"},
+    {"at": 211.64, "move": "night_moves", "_lyric": "Let's get it on together"},
+    {"at": 215.46, "move": "disco_nod", "_lyric": "make love while we can"},
+
+    {"at": 217.84, "move": "synth_pulse", "_lyric": "Let me show you at night"},
+    {"at": 221.82, "move": "synth_pulse", "_lyric": "Let me make you"},
+    {"at": 225.14, "move": "feel_right", "_lyric": "feel right"},
+    {"at": 227.20, "move": "all_night_long", "_lyric": "All night long"},
+    {"at": 230.66, "move": "rock_you", "_lyric": "I wanna rock you"},
+
+    {"at": 236.22, "move": "all_night_long", "_lyric": "All night long"},
+    {"at": 239.02, "move": "rock_you", "_lyric": "I wanna rock you"},
+    {"at": 240.60, "move": "all_night_long", "_lyric": "All night long"},
+    {"at": 245.88, "move": "rock_you", "_lyric": "I wanna rock you"},
+    {"at": 248.58, "move": "all_night_long", "_lyric": "All night long"},
+    {"at": 251.32, "move": "rock_you", "_lyric": "I wanna rock you"},
+    {"at": 252.50, "move": "all_night_long", "_lyric": "All night long"},
+    {"at": 255.30, "move": "rock_you", "_lyric": "I wanna rock you"},
+    {"at": 256.36, "move": "all_night_long", "_lyric": "All night long"},
+
+    {"at": 276.78, "move": "vocoder_groove", "_lyric": "Oh oh oh - vocoder section"},
+    {"at": 280.0, "move": "oh_pulse", "_lyric": "oh"},
+    {"at": 284.0, "move": "vocoder_groove", "_lyric": "oh"},
+    {"at": 288.0, "move": "oh_pulse", "_lyric": "oh"},
+    {"at": 292.0, "move": "vocoder_groove", "_lyric": "oh"},
+    {"at": 296.0, "move": "oh_pulse", "_lyric": "oh"},
+    {"at": 300.92, "move": "vocoder_groove", "_lyric": "Oh"},
+    {"at": 306.56, "move": "oh_pulse", "_lyric": "oh oh oh"},
+    {"at": 312.0, "move": "vocoder_groove", "_lyric": "instrumental"},
+    {"at": 318.0, "move": "oh_pulse", "_lyric": "instrumental"},
+    {"at": 324.0, "move": "vocoder_groove", "_lyric": "instrumental"},
+    {"at": 330.0, "move": "oh_pulse", "_lyric": "instrumental"},
+    {"at": 336.98, "move": "vocoder_groove", "_lyric": "Oh"},
+    {"at": 344.78, "move": "oh_pulse", "_lyric": "oh oh"},
+    {"at": 352.28, "move": "vocoder_groove", "_lyric": "Oh oh oh"},
+    {"at": 357.32, "move": "oh_pulse", "_lyric": "Oh oh"},
+    {"at": 360.44, "move": "vocoder_groove", "_lyric": "Oh oh"},
+    {"at": 363.24, "move": "oh_pulse", "_lyric": "Oh"},
+    {"at": 367.86, "move": "vocoder_groove", "_lyric": "Oh oh"},
+    {"at": 370.52, "move": "oh_pulse", "_lyric": "Oh"},
+    {"at": 373.12, "move": "vocoder_groove", "_lyric": "Oh oh"},
+    {"at": 377.00, "move": "oh_pulse", "_lyric": "Oh oh"},
+    {"at": 379.28, "move": "feel_right", "_lyric": "final flourish"}
+  ]
+}
