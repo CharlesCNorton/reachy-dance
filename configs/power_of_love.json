@@ -1,0 +1,280 @@
+{
+  "title": "The Power of Love - Huey Lewis and the News",
+  "url": "https://www.youtube.com/watch?v=-UQFBtHEFJ8",
+  "default_time": "normal",
+  "movements": {
+    "power_burst": {
+      "phases": [
+        {"pose": [-15, 0, 0, 0.1, 0.1, 0], "duration": 0.12, "ease": "smooth"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [20, -25, -10, 1.0, 0.4, -10], "duration": 0.15, "ease": "snap"},
+        {"pose": [20, 25, 10, 0.4, 1.0, 10], "duration": 0.15, "ease": "snap"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.2, "ease": "smooth"},
+        {"pose": [5, 0, 0, 0.5, 0.5, 0], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 1.0
+    },
+    "love_explode": {
+      "phases": [
+        {"pose": [-10, 0, 0, 0.0, 0.0, 0], "duration": 0.08, "ease": "smooth"},
+        {"pose": [18, 30, 12, 0.2, 1.0, 12], "duration": 0.12, "ease": "snap"},
+        {"pose": [18, 30, 12, 0.2, 1.0, 12], "duration": 0.1, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.8, 0.8, 0], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 1.0
+    },
+    "rock_swagger_left": {
+      "phases": [
+        {"pose": [8, -30, -15, 1.0, 0.2, -12], "duration": 0.15, "ease": "snap"},
+        {"pose": [8, -30, -15, 1.0, 0.2, -12], "duration": 0.12, "ease": "smooth"},
+        {"pose": [5, -15, -5, 0.7, 0.4, -5], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "rock_swagger_right": {
+      "phases": [
+        {"pose": [8, 30, 15, 0.2, 1.0, 12], "duration": 0.15, "ease": "snap"},
+        {"pose": [8, 30, 15, 0.2, 1.0, 12], "duration": 0.12, "ease": "smooth"},
+        {"pose": [5, 15, 5, 0.4, 0.7, 5], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "headbang": {
+      "phases": [
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.08, "ease": "snap"},
+        {"pose": [-10, 0, 0, 0.2, 0.2, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.08, "ease": "snap"},
+        {"pose": [-10, 0, 0, 0.2, 0.2, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.08, "ease": "snap"},
+        {"pose": [5, 0, 0, 0.5, 0.5, 0], "duration": 0.12, "ease": "smooth"}
+      ],
+      "blend_weight": 1.0
+    },
+    "strong_hit": {
+      "phases": [
+        {"pose": [-8, -20, 0, 0.1, 0.4, -8], "duration": 0.06, "ease": "smooth"},
+        {"pose": [15, -35, -12, 1.0, 0.3, -12], "duration": 0.1, "ease": "snap"},
+        {"pose": [15, -35, -12, 1.0, 0.3, -12], "duration": 0.15, "ease": "smooth"},
+        {"pose": [8, -10, 0, 0.6, 0.5, -3], "duration": 0.12, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.98
+    },
+    "cruel_twist": {
+      "phases": [
+        {"pose": [5, 35, 18, 0.3, 1.0, 10], "duration": 0.12, "ease": "snap"},
+        {"pose": [5, 35, 18, 0.3, 1.0, 10], "duration": 0.15, "ease": "smooth"},
+        {"pose": [0, 20, 8, 0.4, 0.7, 5], "duration": 0.1, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "save_your_life": {
+      "phases": [
+        {"pose": [-12, 0, 0, 0.0, 0.0, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.08, "ease": "snap"},
+        {"pose": [20, -30, -10, 1.0, 0.3, -10], "duration": 0.12, "ease": "snap"},
+        {"pose": [20, 30, 10, 0.3, 1.0, 10], "duration": 0.12, "ease": "snap"},
+        {"pose": [20, -30, -10, 1.0, 0.3, -10], "duration": 0.12, "ease": "snap"},
+        {"pose": [18, 0, 0, 0.8, 0.8, 0], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 1.0
+    },
+    "thats_the_power": {
+      "phases": [
+        {"pose": [0, -25, 0, 0.8, 0.2, -8], "duration": 0.1, "ease": "snap"},
+        {"pose": [0, 25, 0, 0.2, 0.8, 8], "duration": 0.1, "ease": "snap"},
+        {"pose": [-5, 0, 0, 0.1, 0.1, 0], "duration": 0.08, "ease": "smooth"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [20, 0, 5, 1.0, 0.8, 3], "duration": 0.12, "ease": "smooth"},
+        {"pose": [20, 0, -5, 0.8, 1.0, -3], "duration": 0.12, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.6, 0.6, 0], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 1.0
+    },
+    "feel_it_sway": {
+      "phases": [
+        {"pose": [10, -35, -10, 0.9, 0.2, -10], "duration": 0.2, "ease": "smooth"},
+        {"pose": [10, 35, 10, 0.2, 0.9, 10], "duration": 0.2, "ease": "smooth"},
+        {"pose": [10, -35, -10, 0.9, 0.2, -10], "duration": 0.2, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.5, 0.5, 0], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "glad_baby": {
+      "phases": [
+        {"pose": [15, 0, 0, 1.0, 1.0, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [15, -25, -8, 1.0, 0.4, -8], "duration": 0.12, "ease": "snap"},
+        {"pose": [15, 25, 8, 0.4, 1.0, 8], "duration": 0.12, "ease": "snap"},
+        {"pose": [18, 0, 0, 0.9, 0.9, 0], "duration": 0.15, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.12, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "dont_take_snap": {
+      "phases": [
+        {"pose": [5, -30, 0, 0.9, 0.2, -8], "duration": 0.1, "ease": "snap"},
+        {"pose": [5, 30, 0, 0.2, 0.9, 8], "duration": 0.1, "ease": "snap"},
+        {"pose": [5, -30, 0, 0.9, 0.2, -8], "duration": 0.1, "ease": "snap"},
+        {"pose": [8, 0, 0, 0.5, 0.5, 0], "duration": 0.1, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "credit_card_tick": {
+      "phases": [
+        {"pose": [3, -15, 0, 0.7, 0.3, -5], "duration": 0.06, "ease": "snap"},
+        {"pose": [3, 15, 0, 0.3, 0.7, 5], "duration": 0.06, "ease": "snap"},
+        {"pose": [3, -15, 0, 0.7, 0.3, -5], "duration": 0.06, "ease": "snap"},
+        {"pose": [3, 15, 0, 0.3, 0.7, 5], "duration": 0.06, "ease": "snap"},
+        {"pose": [3, -15, 0, 0.7, 0.3, -5], "duration": 0.06, "ease": "snap"},
+        {"pose": [3, 15, 0, 0.3, 0.7, 5], "duration": 0.06, "ease": "snap"},
+        {"pose": [8, 0, 0, 0.6, 0.6, 0], "duration": 0.1, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "all_in_love": {
+      "phases": [
+        {"pose": [12, -40, -12, 0.8, 0.2, -12], "duration": 0.25, "ease": "smooth"},
+        {"pose": [12, 40, 12, 0.2, 0.8, 12], "duration": 0.3, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.5, 0.5, 0], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "dont_care_shrug": {
+      "phases": [
+        {"pose": [8, 0, 15, 0.9, 0.9, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [8, 0, -15, 0.9, 0.9, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [12, 20, 0, 0.5, 0.8, 5], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 0.9
+    },
+    "know_what_to_do": {
+      "phases": [
+        {"pose": [15, -20, 0, 1.0, 0.5, -6], "duration": 0.12, "ease": "snap"},
+        {"pose": [15, 0, 0, 0.8, 0.8, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [15, 20, 0, 0.5, 1.0, 6], "duration": 0.12, "ease": "snap"},
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.15, "ease": "smooth"}
+      ],
+      "blend_weight": 0.95
+    },
+    "help_from_above": {
+      "phases": [
+        {"pose": [5, 0, 0, 0.3, 0.3, 0], "duration": 0.15, "ease": "smooth"},
+        {"pose": [15, 0, 0, 0.6, 0.6, 0], "duration": 0.15, "ease": "smooth"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.12, "ease": "snap"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.2, "ease": "smooth"},
+        {"pose": [12, 0, 0, 0.7, 0.7, 0], "duration": 0.15, "ease": "ease_in"}
+      ],
+      "blend_weight": 1.0
+    },
+    "can_you_feel": {
+      "phases": [
+        {"pose": [10, -35, -8, 1.0, 0.2, -10], "duration": 0.15, "ease": "snap"},
+        {"pose": [10, -35, -8, 1.0, 0.2, -10], "duration": 0.1, "ease": "smooth"},
+        {"pose": [10, 35, 8, 0.2, 1.0, 10], "duration": 0.2, "ease": "snap"},
+        {"pose": [10, 35, 8, 0.2, 1.0, 10], "duration": 0.1, "ease": "smooth"},
+        {"pose": [8, 0, 0, 0.5, 0.5, 0], "duration": 0.12, "ease": "ease_in"}
+      ],
+      "blend_weight": 0.95
+    },
+    "tougher_diamonds": {
+      "phases": [
+        {"pose": [-10, 0, 0, 0.1, 0.1, 0], "duration": 0.1, "ease": "smooth"},
+        {"pose": [18, -25, -10, 1.0, 0.4, -8], "duration": 0.12, "ease": "snap"},
+        {"pose": [18, -25, -10, 1.0, 0.4, -8], "duration": 0.1, "ease": "smooth"},
+        {"pose": [18, 25, 10, 0.4, 1.0, 8], "duration": 0.15, "ease": "snap"},
+        {"pose": [12, 0, 0, 0.7, 0.7, 0], "duration": 0.12, "ease": "ease_in"}
+      ],
+      "blend_weight": 1.0
+    },
+    "stronger_steel": {
+      "phases": [
+        {"pose": [18, 0, 0, 1.0, 1.0, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [18, 0, 10, 1.0, 0.6, 5], "duration": 0.1, "ease": "snap"},
+        {"pose": [18, 0, -10, 0.6, 1.0, -5], "duration": 0.1, "ease": "snap"},
+        {"pose": [18, 0, 10, 1.0, 0.6, 5], "duration": 0.1, "ease": "snap"},
+        {"pose": [15, 0, 0, 0.8, 0.8, 0], "duration": 0.12, "ease": "smooth"}
+      ],
+      "blend_weight": 1.0
+    },
+    "feel_the_power": {
+      "phases": [
+        {"pose": [-8, 0, 0, 0.1, 0.1, 0], "duration": 0.08, "ease": "smooth"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.1, "ease": "snap"},
+        {"pose": [20, -20, -8, 1.0, 0.5, -6], "duration": 0.1, "ease": "snap"},
+        {"pose": [20, 20, 8, 0.5, 1.0, 6], "duration": 0.1, "ease": "snap"},
+        {"pose": [20, -20, -8, 1.0, 0.5, -6], "duration": 0.1, "ease": "snap"},
+        {"pose": [18, 0, 0, 0.8, 0.8, 0], "duration": 0.12, "ease": "smooth"}
+      ],
+      "blend_weight": 1.0
+    },
+    "outro_power": {
+      "phases": [
+        {"pose": [15, -30, -10, 1.0, 0.3, -10], "duration": 0.12, "ease": "snap"},
+        {"pose": [15, 30, 10, 0.3, 1.0, 10], "duration": 0.12, "ease": "snap"},
+        {"pose": [15, -30, -10, 1.0, 0.3, -10], "duration": 0.12, "ease": "snap"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.15, "ease": "snap"},
+        {"pose": [20, 0, 0, 1.0, 1.0, 0], "duration": 0.15, "ease": "smooth"},
+        {"pose": [10, 0, 0, 0.6, 0.6, 0], "duration": 0.12, "ease": "ease_in"}
+      ],
+      "blend_weight": 1.0
+    }
+  },
+  "triggers": [
+    {"at": 20.24, "move": "power_burst", "_lyric": "The Power of Love"},
+    {"at": 34.52, "move": "power_burst", "_lyric": "Power of Love"},
+
+    {"at": 60.0, "move": "dont_take_snap", "_lyric": "Don't take fame"},
+    {"at": 62.16, "move": "credit_card_tick", "_lyric": "Don't need no credit card"},
+    {"at": 65.6, "move": "strong_hit", "_lyric": "It's strong"},
+    {"at": 67.72, "move": "cruel_twist", "_lyric": "cruel sometimes"},
+    {"at": 69.68, "move": "save_your_life", "_lyric": "might just save your life"},
+
+    {"at": 73.56, "move": "thats_the_power", "_lyric": "That's the power of love"},
+    {"at": 78.04, "move": "thats_the_power", "_lyric": "That's the power of love"},
+
+    {"at": 83.32, "move": "feel_it_sway", "_lyric": "First time you feel it"},
+    {"at": 86.98, "move": "feel_it_sway", "_lyric": "Next time you feel it"},
+    {"at": 90.94, "move": "glad_baby", "_lyric": "You'll be glad baby"},
+
+    {"at": 96.58, "move": "thats_the_power", "_lyric": "That's the power"},
+
+    {"at": 100.54, "move": "dont_take_snap", "_lyric": "And don't take money"},
+    {"at": 102.58, "move": "dont_take_snap", "_lyric": "Don't take fame"},
+    {"at": 104.68, "move": "credit_card_tick", "_lyric": "Don't need no credit card"},
+    {"at": 107.46, "move": "strong_hit", "_lyric": "It's strong"},
+    {"at": 109.8, "move": "cruel_twist", "_lyric": "cruel sometimes"},
+    {"at": 112.18, "move": "save_your_life", "_lyric": "might just save your life"},
+
+    {"at": 116.3, "move": "all_in_love", "_lyric": "They say that all in love is fair"},
+    {"at": 121.2, "move": "dont_care_shrug", "_lyric": "Yeah, but you don't care"},
+    {"at": 124.52, "move": "know_what_to_do", "_lyric": "But you'll know what to do"},
+    {"at": 128.24, "move": "rock_swagger_left", "_lyric": "When it gets all new"},
+    {"at": 130.74, "move": "rock_swagger_right", "_lyric": "new"},
+    {"at": 132.62, "move": "help_from_above", "_lyric": "And with a little help from above"},
+
+    {"at": 136.98, "move": "feel_the_power", "_lyric": "You'll feel the power of love"},
+    {"at": 139.56, "move": "love_explode", "_lyric": "love"},
+    {"at": 141.1, "move": "feel_the_power", "_lyric": "You'll feel the power of love"},
+
+    {"at": 144.64, "move": "can_you_feel", "_lyric": "Can you feel it?"},
+    {"at": 147.24, "move": "can_you_feel", "_lyric": "Can you feel it?"},
+
+    {"at": 182.98, "move": "dont_take_snap", "_lyric": "Don't take money"},
+    {"at": 185.78, "move": "dont_take_snap", "_lyric": "Don't take fame"},
+    {"at": 187.6, "move": "credit_card_tick", "_lyric": "Don't need no credit card"},
+
+    {"at": 190.46, "move": "tougher_diamonds", "_lyric": "Tougher than diamonds"},
+    {"at": 193.12, "move": "stronger_steel", "_lyric": "stronger than steel"},
+    {"at": 195.66, "move": "rock_swagger_left", "_lyric": "You won't feel nothing"},
+    {"at": 197.7, "move": "headbang", "_lyric": "Till you feel"},
+
+    {"at": 199.46, "move": "feel_the_power", "_lyric": "Feel the power"},
+    {"at": 201.72, "move": "feel_the_power", "_lyric": "Just feel the power"},
+    {"at": 203.34, "move": "thats_the_power", "_lyric": "That's the power"},
+    {"at": 206.12, "move": "thats_the_power", "_lyric": "That's the power"},
+
+    {"at": 207.38, "move": "outro_power", "_lyric": "Feel the power of love"},
+    {"at": 210.36, "move": "outro_power", "_lyric": "power of love"},
+    {"at": 212.92, "move": "outro_power", "_lyric": "Feel the power of love"},
+    {"at": 217.28, "move": "outro_power", "_lyric": "Feel the power of love"}
+  ]
+}
